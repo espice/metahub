@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Helo');
+  res.send('Hare Krishna');
 });
 
 const port = process.env.PORT || 4000;

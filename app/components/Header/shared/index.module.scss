@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 130px;
+  height: 70px;
+
+  &__logo {
+    margin: 8px 0;
+  }
+
+  &__nav {
+    margin: auto;
+    display: flex;
+  }
+}
+
+.accountOptions {
+  margin: auto 0;
+  display: flex;
+  gap: 10px;
+
+  * {
+    margin: auto;
+  }
+}

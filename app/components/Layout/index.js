@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Header from '../Header';
 import { Children } from 'react';
+import styles from './index.module.scss';
 
 export default function Layout({ children, page }) {
   return (
@@ -16,7 +17,7 @@ export default function Layout({ children, page }) {
         />
       </Head>
 
-      <div>
+      <div className={styles.main}>
         <Header />
         {children}
       </div>
