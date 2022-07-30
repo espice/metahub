@@ -4,6 +4,7 @@ dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
+const oAuthAppsRouter = require("./routes/oauthApps");
 const cookieParser = require("cookie-parser");
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
+app.use("/oAuthApps", oAuthAppsRouter);
 
 // kar raha hun
 // app.oauth = new OAuthServer({
