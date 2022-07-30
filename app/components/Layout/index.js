@@ -5,7 +5,9 @@ import styles from './index.module.scss';
 import useSession from '../../utils/hooks/useSession';
 
 export default function Layout({ children, page }) {
-  const { user, loading } = useSession();
+  const { user, error, loading } = useSession();
+  console.log(user, error, loading);
+
   return (
     <>
       <Head>
