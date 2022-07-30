@@ -11,6 +11,7 @@ export default function Content() {
   const [userName, setUserName] = useState('');
   const [userPass, setUserPass] = useState('');
   const { updateUser } = useSession();
+  const [loggingIn, setLoggingIn] = useState(false);
   return (
     <div className={styles.content}>
       <div className={styles.content__container}>
@@ -50,6 +51,7 @@ export default function Content() {
         <PrimaryButton
           className={styles.content__container__button}
           onClick={async () => {
+            setLoggingIn(true);
             const data = await axios.post('/auth/login', {
               email: userName,
               password: userPass,
@@ -59,7 +61,10 @@ export default function Content() {
               updateUser();
               return (window.location.href = '/');
             }
+
+            setLoggingIn(false);
           }}
+          loading={loggingIn}
         >
           Let's Get Back!
         </PrimaryButton>
