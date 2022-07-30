@@ -28,6 +28,9 @@
 .somebutton {
   background: rgba(6, 104, 225, 0.1);
   color: #0668e1;
+  // filter: blur(8px);
+  backdrop-filter: blur(2px);
+  // -webkit-filter: blur(8px);
   padding: 12px 24px;
   margin-top: 8px;
   display: flex;

@@ -74,7 +74,19 @@ export default function Content() {
             </div>
           </div>
         </div>
-        <div className={styles.right}>stuff here</div>
+        <div className={styles.right}>
+          {selected == 'profile' ? (
+            <div className={styles.profile}>profile</div>
+          ) : selected == 'settings' ? (
+            <div className={styles.settings}>settings</div>
+          ) : selected == 'verses' ? (
+            <div className={styles.verses}>verses</div>
+          ) : selected == 'reports' ? (
+            <div className={styles.reports}>reports</div>
+          ) : selected == 'oauth' ? (
+            <div className={styles.oauth}>oauth</div>
+          ) : null}
+        </div>
       </div>
     </div>
   );
