@@ -17,8 +17,7 @@ export default function Header() {
       <div className={styles.header__logo}>
         <Image src={Logo} width={64} height={64} />
       </div>
-
-      <AuthLinks />
+      {user ? <AuthLinks /> : <AccountOptions />}
     </div>
   );
 }
