@@ -1,5 +1,5 @@
-import React, { useState, useContext, createContext, useEffect } from 'react';
-import axios from '../axios';
+import React, { useState, useContext, createContext, useEffect } from "react";
+import axios from "../axios";
 const Context = createContext({});
 
 function UserProvider({ children }) {
@@ -8,7 +8,7 @@ function UserProvider({ children }) {
   const [error, setError] = useState(null);
 
   const logout = async () => {
-    const { data } = await axios.post('/auth/logout');
+    const { data } = await axios.post("/auth/logout");
     if (data.success) {
       return setUser(null);
     }
@@ -16,25 +16,26 @@ function UserProvider({ children }) {
   };
 
   const fetchUser = async () => {
-    const { data } = await axios.get('/auth/me');
+    const { data } = await axios.get("/auth/me");
     if (data.success) {
       setUser(data.user);
     }
 
-    if (window.location.pathname !== '/') {
-      window.location.pathname = '/';
+    if (!["/", "/login", "/register"].includes(window.location.pathname)) {
+      window.location.pathname = "/";
+      setLoading(false);
+    } else {
+      setError(data.message);
+      setLoading(false);
     }
-
-    setError(data.message);
-    return setLoading(false);
   };
 
   useEffect(() => {
     fetchUser();
-  });
+  }, []);
 
   const updateUser = async (user) => {
-    const { data } = await axios.get('/auth/me');
+    const { data } = await axios.get("/auth/me");
     if (data.success) {
       setUser(data.user);
       return data.user;

@@ -5,9 +5,9 @@ import { UserProvider as UserContextProvider } from '../utils/context/user';
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <UserContextProvider>
+      {/* <UserContextProvider> */}
         <Component {...pageProps} />
-      </UserContextProvider>
+      {/* </UserContextProvider> */}
     </>
   );
 }

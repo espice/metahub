@@ -9,6 +9,8 @@ const reportRouter = require("./routes/report");
 const cookieParser = require("cookie-parser");
 const app = express();
 
+const config = require("./config");
+
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -20,12 +22,12 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3001");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE");
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, x-auth-token"
+    "Origin, X-Requested-With, Content-Type, Accept, x-auth-token, Authorization"
   );
   next();
 });
