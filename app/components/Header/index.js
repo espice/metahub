@@ -43,6 +43,10 @@ const AccountOptions = () => {
         <TextButton
           click={() => {
             setLoginLoading(true);
+            if (router.pathname === '/login') {
+              return setLoginLoading(false);
+            }
+
             router.push('/login');
           }}
           loading={registerLoading ? false : loginLoading}
@@ -54,6 +58,9 @@ const AccountOptions = () => {
         <PrimaryButton
           click={() => {
             setRegisterLoading(true);
+            if (router.pathname === '/register') {
+              return setRegisterLoading(false);
+            }
 
             router.push('/register');
           }}

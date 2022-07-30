@@ -13,12 +13,14 @@
 }
 
 .content h1 {
-  font-size: 2em;
+  font-size: 36px;
+  font-weight: 900;
 }
 
 .content {
   width: 100%;
   height: 100%;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,8 +77,9 @@
 
 .right {
   width: 50vw;
+  padding: 20px 0px;
   margin-left: 1vw;
-  background-color: #dcdcdc;
+  background-color: transparent;
 }
 
 .left {
