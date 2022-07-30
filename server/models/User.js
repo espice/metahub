@@ -5,9 +5,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     maxlength: 255,
   },
-  image: {
+  tag: {
     type: String,
-    minlength: 4,
+    required: true,
   },
   email: {
     type: String,
@@ -17,6 +17,19 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  password: {
+    type: String,
+    required: true
+  },
+  avatar: {
+    type: String,
+    required: true
+  },
+  OAuthApps: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "OAuthApp",
+    default: []
+  }
 });
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('User', userSchema);
