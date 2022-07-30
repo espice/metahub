@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
+import OAuthServer from 'express-oauth-server';
 import express from 'express';
 import mongoose from 'mongoose';
+const authRouter = require('./routes/auth');
 
 const app = express();
 
@@ -27,7 +28,19 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use('/auth', authRouter);
+
 app.use(express.json());
+
+
+// kar raha hun
+app.oauth = new OAuthServer({
+  model: {}, // See https://github.com/oauthjs/node-oauth2-server for specification
+});
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(app.oauth.authorize());
 
 app.get('/', (req, res) => {
   res.send('Hare Krishna');
