@@ -4,7 +4,7 @@ import styles from './shared/index.module.scss';
 import { useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../public/logo.svg';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import Link from 'next/link';
 import settingsIcon from '../../public/icons/settings.svg';
 import useSession from '../../utils/hooks/useSession';
@@ -23,6 +23,8 @@ export default function Header() {
 }
 
 const AccountOptions = () => {
+  const router = useRouter();
+
   const [loginLoading, setLoginLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
 
@@ -32,10 +34,8 @@ const AccountOptions = () => {
         <TextButton
           click={() => {
             setLoginLoading(true);
-
-            setTimeout(() => {
-              return setLoginLoading(false);
-            }, 2000);
+            router.push("/login")
+            
           }}
           loading={registerLoading ? false : loginLoading}
         >
@@ -47,9 +47,7 @@ const AccountOptions = () => {
           click={() => {
             setRegisterLoading(true);
 
-            setTimeout(() => {
-              return setRegisterLoading(false);
-            }, 2000);
+            router.push("/register")
           }}
           loading={loginLoading ? false : registerLoading}
         >

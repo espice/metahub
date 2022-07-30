@@ -4,6 +4,7 @@ import TextButton from '../../components/Button/Text';
 import styles from './index.module.scss';
 import Textfield from '../../components/Textfield';
 import { useState } from 'react';
+import axios from '../../utils/axios';
 
 export default function Content() {
   const [userName, setUserName] = useState("")
@@ -16,7 +17,14 @@ export default function Content() {
         <Textfield value={userName} onChange={(e) => {setUserName(e.target.value)}} type={"text"} placeholder={"Your Username"} className={styles.content__container__input}></Textfield>
         <h2 className={styles.content__container__placeholder}>Your <span className={styles.content__container__placeholder__blue}>Password</span> </h2>
         <Textfield value={userPass} onChange={(e) => {setUserPass(e.target.value)}} type={"password"} placeholder={"Your Password"} className={styles.content__container__input}></Textfield>
-        <PrimaryButton className={styles.content__container__button}>Let's Get Back!</PrimaryButton>
+        <PrimaryButton className={styles.content__container__button} onClick={async () => {
+          const data = await axios.post("/auth/login", {
+            email: userName,
+            password: userPass
+          })
+          console.log(data.data)
+
+        }}>Let's Get Back!</PrimaryButton>
       </div>
     </div>
   );
