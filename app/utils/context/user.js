@@ -1,0 +1,47 @@
+import React, { useState, useContext, createContext, useEffect } from 'react';
+import axios from '../axios';
+const Context = createContext();
+
+function UserProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+
+  const logout = async () => {
+    const { data } = await axios.post('/auth/logout');
+    if (data.success) {
+      return setUser(null);
+    }
+    return setError(data.message);
+  };
+
+  useEffect(async () => {
+    const { data } = await axios.get('/auth/me');
+    if (data.success) {
+      setUser(data.user);
+    }
+
+    setLoading(false);
+  }, []);
+
+  const updateUser = async (user) => {
+    const { data } = await axios.get('/auth/me');
+    if (data.success) {
+      setUser(data.user);
+      return data.user;
+    }
+    return setError(data.message);
+  };
+
+  return (
+    <Context.Provider
+      value={{ user, setUser, error, loading, logout, updateUser }}
+    >
+      {children}
+    </Context.Provider>
+  );
+}
+
+const useUserContext = () => useContext(Context);
+
+export { UserProvider, useUserContext, Context };

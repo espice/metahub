@@ -1,45 +1,204 @@
-const User = require('../models/User');
-const router = require('express').Router();
+const User = require("../models/User");
+const OAuthApp = require("../models/OAuthApp");
+const OAuthCode = require("../models/OAuthCode");
+const router = require("express").Router();
+const bcrypt = require("bcrypt");
+const config = require("../config");
+const cookieConfig = config.cookieConfig;
 
-// router.post('/create', async (req, res) => {
-//   const user = req.body;
-//   if (user) {
-//     const userFromDB = await User.findOne({
-//       email: user.email,
-//     }).catch((err) => console.log('==> User not found.'));
-//     console.log(user, userFromDB);
-//     if (userFromDB) {
-//       console.log('==> User already in DB, so new instance is not created.');
-//       res.json({
-//         message: 'User is already in DB, so new instance is not created.',
-//       });
-//       return;
-//     }
-//     const newUser = await new User({
-//       username: user.name,
-//       image: user.image,
-//       email: user.email,
-//       accountCreationDate: new Date().getTime(),
-//     }).save();
-//     res.json({ action: 'Create user', newUser });
-//     return;
-//   }
-//   res.json({ action: 'Create user', message: 'User signed out.' });
-// });
+const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
 
-// router.get('/getAllUsers', async (req, res) => {
-//   const users = await User.find().lean();
-//   res.json({
-//     users: users,
-//     action: 'Get all users',
-//   });
-// });
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
 
-// router.get('/getUser/:email', async (req, res) => {
-//   const userEmail = req.params.email;
-//   const userFromDB = await User.findOne({ email: userEmail });
-//   console.log(userEmail);
-//   res.json(userFromDB);
-// });
+router.post("/register", async (req, res) => {
+  try {
+    // console.log(req)
+    const newUser = {
+      username: req.body.username,
+      tag: req.body.tag,
+      email: req.body.email,
+      dob: req.body.dob,
+      password: req.body.password,
+    };
+
+    if (
+      !newUser.email ||
+      newUser.email == "" ||
+      newUser.email.trim() == "" ||
+      !newUser.username ||
+      newUser.username == "" ||
+      newUser.username.trim() == "" ||
+      !newUser.password ||
+      newUser.password == "" ||
+      newUser.password.trim() == "" ||
+      !newUser.dob ||
+      newUser.dob == "" ||
+      newUser.dob.trim() == "" ||
+      !newUser.tag ||
+      newUser.tag == "" ||
+      newUser.tag.trim() == ""
+    ) {
+      return res.send({
+        success: false,
+        message: "All fields are required.",
+      });
+    }
+
+    const validEmail = validateEmail(newUser.email);
+    if (!validEmail)
+      return res.send({ success: false, message: "Invalid Email ID" });
+
+    const doesUserExist = await User.findOne({ email: newUser.email });
+    if (doesUserExist)
+      return res.send({
+        success: false,
+        message: "User with email already exists",
+      });
+
+    const hashed = await bcrypt.hash(newUser.password, 15);
+    const user = await User.create({ ...newUser, password: hashed });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY);
+
+    res
+      .cookie("token", token, cookieConfig)
+      .send({ success: true, userId: user._id });
+  } catch (e) {
+    console.log(e);
+    res.send({ success: false, message: "An error occured in /register" });
+  }
+});
+
+router.get("/me", auth, async (req, res) => {
+  const userId = req.user.id;
+
+  const user = await User.findOne({ _id: userId }).select("-password");
+  if (!user) return res.send({ succes: false, message: "Invalid Token" });
+
+  res.send({ success: true, user });
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const email = req.body.email;
+    const pswd = req.body.password;
+
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.send({
+        success: false,
+        message: "User with this email does not exist",
+      });
+
+    const match = await bcrypt.compare(pswd, user.password);
+    if (!match)
+      return res.send({ succes: false, message: "Invalid Credentials" });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_KEY);
+    const finalUserToSend = await User.findOne({ email })
+      .lean()
+      .select("-password");
+
+    res
+      .cookie("token", token, cookieConfig)
+      .send({ success: true, user: finalUserToSend });
+  } catch (e) {
+    console.log(e);
+    res.send({ success: false, message: e });
+  }
+});
+
+router.post("/logout", auth, (req, res) => {
+  res.clearCookie("token", config.removeCookieConfig).send({ success: true });
+});
+
+router.post("/authorize", auth, async (req, res) => {
+  try {
+    const clientId = req.query.clientId;
+    if (!clientId)
+      return res.send({ success: false, message: "Client ID not provided" });
+
+    const app = await OAuthApp.findOne({ _id: clientId });
+    if (!app) return res.send({ success: false, message: "Invalid Client ID" });
+
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) return res.send({ success: false, message: "Invalid Token" });
+    
+    res.send({ success: true, app });
+  } catch (e) {
+    res.send({
+      success: false,
+      message: "An error occured in /auth/authorize",
+    });
+  }
+});
+
+router.get("/apps/:clientId", auth, async (req, res) => {
+  try {
+    const clientId = req.params.clientId;
+
+    const app = await OAuthApp.findOne({ _id: clientId }).lean().populate({
+      path: "owner",
+      select: "username tag avatar",
+    });
+    if (!app) return res.send({ success: false, message: "Invalid Client ID" });
+
+    const user = await User.findOne({ id: req.user.id });
+    if (!user) return res.send({ success: false, message: "Invalid Token" });
+
+    const alreadyAuthorized = app.authorizedUsers.includes(user._id);
+
+    if (alreadyAuthorized) {
+      const doesCodeExist = await OAuthCode.findOne({
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      if (!doesCodeExist) {
+        return res.send({
+          success: true,
+          alreadyAuthorized,
+          redirectTo: `${app.callbackUrl}?code=${doesCodeExist.code}`,
+        });
+      }
+
+      const code = await OAuthCode.create({
+        code: makeid(50),
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      return res.send({
+        success: true,
+        alreadyAuthorized,
+        redirectTo: `${app.callbackUrl}?code=${code.code}`,
+      });
+    }
+
+    res.send({
+      success: true,
+      alreadyAuthorized,
+      app: {
+        ...app,
+        _id: null,
+        clientId: null,
+        clientSecret: null,
+        authorizedUsers: null,
+      },
+    });
+  } catch (e) {
+    res.send({
+      success: false,
+      message: "An error occured in /auth/apps/:clientId",
+    });
+  }
+});
 
 module.exports = router;

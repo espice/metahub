@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -19,17 +19,32 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   avatar: {
     type: String,
-    required: true
+    required: true,
+    default: "yoyo",
   },
   OAuthApps: {
-    type: [mongoose.Schema.Types.ObjectId],
+    type: String,
     ref: "OAuthApp",
-    default: []
-  }
+    default: [],
+  },
+  dob: {
+    type: String,
+    required: true,
+  },
+  authorizedApps: {
+    type: String,
+    ref: "OAuthApp",
+    default: [],
+  },
+  reports: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Report",
+    default: [],
+  },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

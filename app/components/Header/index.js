@@ -4,6 +4,9 @@ import styles from './shared/index.module.scss';
 import { useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../public/logo.svg';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import settingsIcon from '../../public/icons/settings.svg';
 
 export default function Header() {
   return (
@@ -12,7 +15,7 @@ export default function Header() {
         <Image src={Logo} width={64} height={64} />
       </div>
 
-      <AccountOptions />
+      <AuthLinks />
     </div>
   );
 }
@@ -51,6 +54,49 @@ const AccountOptions = () => {
           Get Started
         </PrimaryButton>
       </div>
+    </div>
+  );
+};
+
+const AuthLinks = () => {
+  const router = useRouter();
+
+  const links = [
+    {
+      label: 'Home',
+      href: '/home',
+      active: router.pathname === '/home',
+    },
+    {
+      label: 'Friends',
+      href: '/friends',
+      active: router.pathname === '/friends',
+    },
+  ];
+
+  return (
+    <div className={styles.header__nav}>
+      {links.map((link) => {
+        return (
+          <Link href={link.href}>
+            <div
+              className={`${styles.header__nav__link} ${
+                link.active ? styles.header__nav__link__active : ''
+              }`}
+            >
+              {link.label}
+            </div>
+          </Link>
+        );
+      })}
+      <Image
+        src={settingsIcon}
+        width={32}
+        height={32}
+        style={{
+          cursor: 'pointer',
+        }}
+      />
     </div>
   );
 };
