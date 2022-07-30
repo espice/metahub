@@ -4,6 +4,7 @@ const oAuthCodeSchema = new mongoose.Schema({
   code: {
     type: String,
     required: true,
+    unique: true,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
