@@ -24,7 +24,9 @@ export default function Layout({ children, page }) {
       </Head>
 
       <div className={styles.main}>
-        {router.pathname === '/' ? (
+        {router.pathname === '/' ||
+        router.pathname === '/login' ||
+        router.pathname === '/register' ? (
           <>
             <Header />
             <div className={styles.content}>{children}</div>
