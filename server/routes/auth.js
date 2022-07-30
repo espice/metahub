@@ -8,6 +8,7 @@ const cookieConfig = config.cookieConfig;
 
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
+const makeid = require("../utils/makeId");
 
 const validateEmail = (email) => {
   return String(email)
@@ -130,9 +131,71 @@ router.post("/authorize", auth, async (req, res) => {
 
     const user = await User.findOne({ _id: req.user.id });
     if (!user) return res.send({ success: false, message: "Invalid Token" });
-    
-    res.send({ success: true, app });
+
+    const alreadyAuthorized = app.authorizedUsers.includes(user._id);
+    console.log(app.authorizedUsers, user._id, alreadyAuthorized);
+
+    if (alreadyAuthorized) {
+      const doesCodeExist = await OAuthCode.findOne({
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      if (doesCodeExist) {
+        return res.send({
+          success: true,
+          redirectTo: `${app.callbackUrl}?code=${doesCodeExist.code}`,
+        });
+      }
+
+      const code = await OAuthCode.create({
+        code: makeid(50),
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      return res.send({
+        success: true,
+        redirectTo: `${app.callbackUrl}?code=${code.code}`,
+      });
+    } else {
+      await OAuthApp.findOneAndUpdate(
+        { _id: clientId },
+        { $push: { authorizedUsers: user._id } }
+      );
+
+      await User.findOneAndUpdate(
+        { _id: req.user.id },
+        {
+          $push: { authorizedApps: clientId },
+        }
+      );
+
+      const doesCodeExist = await OAuthCode.findOne({
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      if (doesCodeExist) {
+        return res.send({
+          success: true,
+          redirectTo: `${app.callbackUrl}?code=${doesCodeExist.code}`,
+        });
+      }
+
+      const code = await OAuthCode.create({
+        code: makeid(50),
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      return res.send({
+        success: true,
+        redirectTo: `${app.callbackUrl}?code=${code.code}`,
+      });
+    }
   } catch (e) {
+    console.log(e);
     res.send({
       success: false,
       message: "An error occured in /auth/authorize",
@@ -150,10 +213,13 @@ router.get("/apps/:clientId", auth, async (req, res) => {
     });
     if (!app) return res.send({ success: false, message: "Invalid Client ID" });
 
-    const user = await User.findOne({ id: req.user.id });
+    const user = await User.findOne({ id: req.user.id }).lean();
     if (!user) return res.send({ success: false, message: "Invalid Token" });
 
-    const alreadyAuthorized = app.authorizedUsers.includes(user._id);
+    const alreadyAuthorized = app.authorizedUsers.some(
+      (id) => id.toString() === user._id.toString()
+    );
+    console.log(app.authorizedUsers, user._id, alreadyAuthorized);
 
     if (alreadyAuthorized) {
       const doesCodeExist = await OAuthCode.findOne({
@@ -161,7 +227,7 @@ router.get("/apps/:clientId", auth, async (req, res) => {
         verse: app.clientId,
       });
 
-      if (!doesCodeExist) {
+      if (doesCodeExist) {
         return res.send({
           success: true,
           alreadyAuthorized,
@@ -197,6 +263,43 @@ router.get("/apps/:clientId", auth, async (req, res) => {
     res.send({
       success: false,
       message: "An error occured in /auth/apps/:clientId",
+    });
+  }
+});
+
+router.post("/access_token", async (req, res) => {
+  try {
+    const clientId = req.query.clientId;
+    const clientSecret = req.query.clientSecret;
+    const code = req.query.code;
+
+    const isCodeReal = await OAuthCode.findOne({ code })
+      .lean()
+      .populate({ path: "verse" })
+      .populate({ path: "user" });
+    if (!isCodeReal)
+      return res.send({ success: false, message: "Invalid Code" });
+
+    const codeId = isCodeReal.verse.clientId;
+    const codeSecret = isCodeReal.verse.clientSecret;
+
+    if (codeId !== clientId || codeSecret !== clientSecret)
+      return res.send({
+        success: false,
+        message: "Invalid Client ID or Client Secret",
+      });
+
+    const accessToken = jwt.sign(
+      { id: isCodeReal.user._id },
+      process.env.ACCESS_TOKEN_KEY
+    );
+
+    res.send({ success: true, access_token: accessToken });
+  } catch (e) {
+    console.log(e);
+    res.send({
+      success: false,
+      message: "Error occured in /auth/access_token",
     });
   }
 });
