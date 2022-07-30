@@ -2,8 +2,10 @@ import Head from 'next/head';
 import Header from '../Header';
 import { Children } from 'react';
 import styles from './index.module.scss';
+import useSession from '../../utils/hooks/useSession';
 
 export default function Layout({ children, page }) {
+  const { user, loading } = useSession();
   return (
     <>
       <Head>
@@ -18,8 +20,14 @@ export default function Layout({ children, page }) {
       </Head>
 
       <div className={styles.main}>
-        <Header />
-        {children}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <Header />
+            <div className={styles.content}>{children}</div>
+          </>
+        )}
       </div>
     </>
   );
