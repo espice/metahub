@@ -20,7 +20,8 @@ function UserProvider({ children }) {
     if (data.success) {
       setUser(data.user);
     }
-
+    console.log(data.success)
+    if (!data.success) {
     if (
       window.location.pathname !== '/' &&
       window.location.pathname !== '/login' &&
@@ -28,14 +29,28 @@ function UserProvider({ children }) {
     ) {
       window.location.pathname = '/';
     }
-
+  } else {
+    console.log("hi")
+    console.log(window.location.pathname)
+    if (
+      window.location.pathname == '/' ||
+      window.location.pathname == '/login' ||
+      window.location.pathname == '/register'
+    ) {
+      console.log("hello")
+      window.location.pathname = '/home';
+    }
+  }
+    console.log(data.message, loading)
+    setLoading(false)
     setError(data.message);
     return setLoading(false);
   };
 
   useEffect(() => {
     fetchUser();
-  });
+    
+  }, [loading]);
 
   const updateUser = async (user) => {
     const { data } = await axios.get('/auth/me');

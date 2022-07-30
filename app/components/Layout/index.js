@@ -8,6 +8,8 @@ import Loader from '../Loader';
 
 export default function Layout({ children, page }) {
   const { user, error, loading } = useSession();
+  console.log(loading, "hi")
+  console.log(error, !error)
   const router = useRouter();
 
   return (
@@ -33,7 +35,7 @@ export default function Layout({ children, page }) {
           </>
         ) : loading ? (
           <Loader center={true} />
-        ) : error !== null ? (
+        ) : error ? (
           <Loader center={true} />
         ) : (
           <>
