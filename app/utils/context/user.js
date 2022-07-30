@@ -5,7 +5,7 @@ const Context = createContext({});
 function UserProvider({ children }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
 
   const logout = async () => {
     const { data } = await axios.post('/auth/logout');
@@ -19,14 +19,19 @@ function UserProvider({ children }) {
     const { data } = await axios.get('/auth/me');
     if (data.success) {
       setUser(data.user);
-      return data.user;
     }
-    setLoading(false);
+
+    if (window.location.pathname !== '/') {
+      window.location.pathname = '/';
+    }
+
+    setError(data.message);
+    return setLoading(false);
   };
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  });
 
   const updateUser = async (user) => {
     const { data } = await axios.get('/auth/me');
