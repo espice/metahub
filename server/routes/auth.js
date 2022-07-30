@@ -1,4 +1,6 @@
 const User = require("../models/User");
+const OAuthApp = require("../models/OAuthApp");
+const OAuthCode = require("../models/OAuthCode");
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const config = require("../config");
@@ -115,6 +117,88 @@ router.post("/login", async (req, res) => {
 
 router.post("/logout", auth, (req, res) => {
   res.clearCookie("token", config.removeCookieConfig).send({ success: true });
+});
+
+router.post("/authorize", auth, async (req, res) => {
+  try {
+    const clientId = req.query.clientId;
+    if (!clientId)
+      return res.send({ success: false, message: "Client ID not provided" });
+
+    const app = await OAuthApp.findOne({ _id: clientId });
+    if (!app) return res.send({ success: false, message: "Invalid Client ID" });
+
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) return res.send({ success: false, message: "Invalid Token" });
+    
+    res.send({ success: true, app });
+  } catch (e) {
+    res.send({
+      success: false,
+      message: "An error occured in /auth/authorize",
+    });
+  }
+});
+
+router.get("/apps/:clientId", auth, async (req, res) => {
+  try {
+    const clientId = req.params.clientId;
+
+    const app = await OAuthApp.findOne({ _id: clientId }).lean().populate({
+      path: "owner",
+      select: "username tag avatar",
+    });
+    if (!app) return res.send({ success: false, message: "Invalid Client ID" });
+
+    const user = await User.findOne({ id: req.user.id });
+    if (!user) return res.send({ success: false, message: "Invalid Token" });
+
+    const alreadyAuthorized = app.authorizedUsers.includes(user._id);
+
+    if (alreadyAuthorized) {
+      const doesCodeExist = await OAuthCode.findOne({
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      if (!doesCodeExist) {
+        return res.send({
+          success: true,
+          alreadyAuthorized,
+          redirectTo: `${app.callbackUrl}?code=${doesCodeExist.code}`,
+        });
+      }
+
+      const code = await OAuthCode.create({
+        code: makeid(50),
+        user: user._id,
+        verse: app.clientId,
+      });
+
+      return res.send({
+        success: true,
+        alreadyAuthorized,
+        redirectTo: `${app.callbackUrl}?code=${code.code}`,
+      });
+    }
+
+    res.send({
+      success: true,
+      alreadyAuthorized,
+      app: {
+        ...app,
+        _id: null,
+        clientId: null,
+        clientSecret: null,
+        authorizedUsers: null,
+      },
+    });
+  } catch (e) {
+    res.send({
+      success: false,
+      message: "An error occured in /auth/apps/:clientId",
+    });
+  }
 });
 
 module.exports = router;

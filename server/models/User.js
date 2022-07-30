@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     default: "yoyo",
   },
   OAuthApps: {
-    type: [mongoose.Schema.Types.ObjectId],
+    type: String,
     ref: "OAuthApp",
     default: [],
   },
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   authorizedApps: {
-    type: [mongoose.Schema.Types.ObjectId],
+    type: String,
     ref: "OAuthApp",
     default: [],
   },

@@ -45,9 +45,9 @@ router.post("/", auth, async (req, res) => {
     newApp.owner = user._id;
 
     const app = await OAuthApp.create({ _id: newApp.clientId, ...newApp });
-    User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: req.user.id },
-      { $push: { OAuthApps: app._id } }
+      { $push: { OAuthApps: newApp.clientId } }
     );
     res.send({ success: true, app });
   } catch (e) {

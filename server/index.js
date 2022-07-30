@@ -5,6 +5,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const authRouter = require("./routes/auth");
 const oAuthAppsRouter = require("./routes/oauthApps");
+const reportRouter = require("./routes/report");
 const cookieParser = require("cookie-parser");
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 app.use("/oAuthApps", oAuthAppsRouter);
+app.use("/report", reportRouter);
 
 // kar raha hun
 // app.oauth = new OAuthServer({
