@@ -35,6 +35,16 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  authorizedApps: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "OAuthApp",
+    default: [],
+  },
+  reports: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Report",
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

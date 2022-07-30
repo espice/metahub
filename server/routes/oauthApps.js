@@ -44,7 +44,7 @@ router.post("/", auth, async (req, res) => {
     newApp.clientSecret = makeid(35);
     newApp.owner = user._id;
 
-    const app = await OAuthApp.create(newApp);
+    const app = await OAuthApp.create({ _id: newApp.clientId, ...newApp });
     User.findOneAndUpdate(
       { _id: req.user.id },
       { $push: { OAuthApps: app._id } }

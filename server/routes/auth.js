@@ -113,4 +113,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/logout", auth, (req, res) => {
+  res.clearCookie("token", config.removeCookieConfig).send({ success: true });
+});
+
 module.exports = router;
