@@ -11,11 +11,20 @@ import useSession from '../../utils/hooks/useSession';
 
 export default function Header() {
   const { user, error, loading } = useSession();
+  const router = useRouter();
 
   return (
     <div className={styles.header}>
       <div className={styles.header__logo}>
-        <Image src={Logo} width={64} height={64} />
+        <Image
+          src={Logo}
+          width={64}
+          height={64}
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            router.push('/');
+          }}
+        />
       </div>
       {user ? <AuthLinks /> : <AccountOptions />}
     </div>
@@ -34,8 +43,7 @@ const AccountOptions = () => {
         <TextButton
           click={() => {
             setLoginLoading(true);
-            router.push("/login")
-            
+            router.push('/login');
           }}
           loading={registerLoading ? false : loginLoading}
         >
@@ -47,7 +55,7 @@ const AccountOptions = () => {
           click={() => {
             setRegisterLoading(true);
 
-            router.push("/register")
+            router.push('/register');
           }}
           loading={loginLoading ? false : registerLoading}
         >

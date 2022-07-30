@@ -6,7 +6,7 @@
   box-sizing: border-box;
 
   &__container {
-    background-image: url("/frame.png");
+    background-image: url('/frame.png');
     background-size: cover;
     background-repeat: no-repeat;
     width: 578px;
@@ -17,11 +17,11 @@
     align-items: center;
 
     &__heading {
-      
       margin-top: 60px;
       font-size: 40px;
       font-weight: 800;
       width: 85%;
+      color: var(--grey-1000);
     }
 
     &__button {
@@ -34,14 +34,12 @@
 
     &__input {
       width: 77%;
-      
-
-      
     }
 
     &__placeholder {
       font-size: 23px;
       width: 85%;
+      font-weight: 800;
 
       &__blue {
         color: var(--primary);
@@ -51,6 +49,7 @@
       font-size: 23px;
       margin-top: auto;
       width: 85%;
+      font-weight: 800;
 
       &__blue {
         color: var(--primary);
@@ -58,5 +57,3 @@
     }
   }
 }
-
-
