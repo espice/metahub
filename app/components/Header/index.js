@@ -10,8 +10,7 @@ import settingsIcon from '../../public/icons/settings.svg';
 import useSession from '../../utils/hooks/useSession';
 
 export default function Header() {
-  const { user } = useSession();
-  console.log(user);
+  const { user, error, loading } = useSession();
 
   return (
     <div className={styles.header}>

@@ -3,10 +3,11 @@ import Header from '../Header';
 import { Children } from 'react';
 import styles from './index.module.scss';
 import useSession from '../../utils/hooks/useSession';
+import { useRouter } from 'next/router';
 
 export default function Layout({ children, page }) {
   const { user, error, loading } = useSession();
-  console.log(user, error, loading);
+  const router = useRouter();
 
   return (
     <>
@@ -22,8 +23,15 @@ export default function Layout({ children, page }) {
       </Head>
 
       <div className={styles.main}>
-        {loading ? (
+        {router.pathname === '/' ? (
+          <>
+            <Header />
+            <div className={styles.content}>{children}</div>
+          </>
+        ) : loading ? (
           <p>Loading...</p>
+        ) : error !== null ? (
+          <p>{error}</p>
         ) : (
           <>
             <Header />
