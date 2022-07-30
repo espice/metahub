@@ -1,9 +1,9 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
 import axios from '../axios';
-const Context = createContext();
+const Context = createContext({});
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
@@ -15,13 +15,17 @@ function UserProvider({ children }) {
     return setError(data.message);
   };
 
-  useEffect(async () => {
+  const fetchUser = async () => {
     const { data } = await axios.get('/auth/me');
     if (data.success) {
       setUser(data.user);
+      return data.user;
     }
-
     setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
   const updateUser = async (user) => {

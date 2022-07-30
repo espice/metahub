@@ -7,8 +7,12 @@ import Logo from '../../public/logo.svg';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import settingsIcon from '../../public/icons/settings.svg';
+import useSession from '../../utils/hooks/useSession';
 
 export default function Header() {
+  const { user } = useSession();
+  console.log(user);
+
   return (
     <div className={styles.header}>
       <div className={styles.header__logo}>

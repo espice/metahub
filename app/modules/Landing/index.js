@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import PrimaryButton from '../../..';
+import PrimaryButton from '../../components/Button/Primary';
 import TextButton from '../../components/Button/Text';
 import styles from './index.module.scss';
 
