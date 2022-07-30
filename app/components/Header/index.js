@@ -105,6 +105,9 @@ const AuthLinks = () => {
         );
       })}
       <Image
+        onClick={() => {
+          router.push('/settings');
+        }}
         src={settingsIcon}
         width={32}
         height={32}

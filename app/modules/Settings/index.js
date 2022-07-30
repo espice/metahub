@@ -1,9 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
+import axios from '../../utils/axios';
 
 export default function Content() {
   const [selected, setSelected] = useState('profile');
   const [loading, setLoading] = useState(false);
+  const [OAuthApps, setOAuthApps] = useState([]);
+
+  useEffect(() => {
+    async function fetchApps() {
+      setLoading(true);
+      const data = await axios.get('/oAuthApps');
+      // console.log(data.data.apps);
+      setOAuthApps(data.data.apps);
+      setLoading(false);
+    }
+
+    fetchApps();
+  }, [loading]);
 
   return (
     <div className={styles.content}>
@@ -84,7 +98,27 @@ export default function Content() {
           ) : selected == 'reports' ? (
             <div className={styles.reports}>reports</div>
           ) : selected == 'oauth' ? (
-            <div className={styles.oauth}>oauth</div>
+            <div className={styles.oauth}>
+              <div className={styles.oauth__heading}>
+                <h2>Your OAuth Applications</h2>
+              </div>
+              <div className={styles.oauth__apps}>
+                {OAuthApps.map((app, index) => (
+                  <div className={styles.appCard} key={index}>
+                    <div>
+                      <div className={styles.appName}>{app.name}</div>
+                      <div className={styles.something}>
+                        <div className={styles.dot}></div>
+                        {`${app.authorizedUsers.length} ${
+                          app.authorizedUsers.length == 1 ? 'Member' : 'Members'
+                        }`}
+                      </div>
+                    </div>
+                    <div className={styles.appEdit}>Edit</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           ) : null}
         </div>
       </div>

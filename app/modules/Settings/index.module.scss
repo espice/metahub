@@ -42,6 +42,7 @@
   border-radius: 8px;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.1s;
 }
 
 .someotherbutton {
@@ -77,9 +78,17 @@
 
 .right {
   width: 50vw;
-  padding: 20px 0px;
+  // padding: 20px 0px;
   margin-left: 1vw;
-  background-color: transparent;
+  // background-color: #cccccc;
+}
+
+.oauth h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #515151;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .left {
@@ -88,4 +97,53 @@
   justify-content: center;
   width: 14vw;
   margin-right: 1vw;
+}
+
+.appCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // width: 100%;
+  padding: 20px 32px;
+  height: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: none;
+  border: 1px solid #dadada;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.appName {
+  color: #212121;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #bdbdbd;
+  margin-right: 8px;
+}
+
+.something {
+  display: flex;
+  align-items: center;
+  color: #707070;
+  font-size: 20px;
+  margin-top: 8px;
+}
+
+.appEdit {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 700;
+  padding: 16px 32px;
+  border-radius: 5px;
+  background: rgba(6, 104, 225, 0.1);
+  cursor: pointer;
 }
