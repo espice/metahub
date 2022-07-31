@@ -7,4 +7,6 @@
   flex-direction: column;
   background-image: url('../../public/background.svg');
   background-size: cover;
+  background-repeat: repeat-y;
+  background-attachment: fixed;
 }
