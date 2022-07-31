@@ -143,14 +143,14 @@ export default function Content() {
             </div>
 
             <div className={PageStyles.content__section__body}>
+              {console.log(verses)}
               <div className={styles.explore__grid}>
                 {verses.map((verse, index) => {
                   return (
                     <div
                       className={styles.explore__grid__item}
                       style={{
-                        width: `${100 / verses.length}%`,
-                        maxWidth: `50%`,
+                        
                       }}
                       key={index}
                     >
@@ -201,10 +201,16 @@ export default function Content() {
                                 : verse.authorizedUsers.length / 2}{' '}
                               Online
                             </div>
+                            
                           </div>
+                          
                         </div>
+                        <div className={styles.shit}>
+                            
+                              {verse.description}
+                              </div>
 
-                        <div className={styles.verses__grid__item__right__copy}>
+                        <div className={styles.verses__grid__item__right__copy} style={{marginTop: "auto"}}>
                           <Image src={Clipboard} width={16} height={16} />
                           <div>Copy URL</div>
                         </div>
