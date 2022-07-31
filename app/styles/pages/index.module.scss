@@ -1,7 +1,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  margin: 55px 310px;
+  margin: 55px 325px;
 
   &__section {
     display: flex;
@@ -10,7 +10,7 @@
     &__title {
       display: flex;
       font-weight: 900;
-      gap: 10px;
+      gap: 8px;
 
       * {
         font-size: 36px;

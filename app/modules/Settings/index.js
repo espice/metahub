@@ -6,7 +6,7 @@ import axios from '../../utils/axios';
 export default function Content() {
   const [selected, setSelected] = useState('profile');
   const [appIndex, setAppIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [OAuthApps, setOAuthApps] = useState([]);
   const [authorizedApps, setAuthorizedApps] = useState([]);
 
@@ -178,8 +178,7 @@ export default function Content() {
               <div className={styles.oauth__apps}>
                 {OAuthApps.map((app, index) => (
                   <div className={styles.appCard} key={index}>
-                    <img src={app.logo} className={styles.appimg}></img>
-                    <div className={styles.appshit}>
+                    <div>
                       <div className={styles.appName}>{app.name}</div>
                       <div className={styles.something}>
                         <div className={styles.dot}></div>
