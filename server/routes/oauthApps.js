@@ -21,8 +21,9 @@ router.get("/authorized", auth, async (req, res) => {
       path: "authorizedApps",
       select: "-clientId -clientSecret -_id",
     });
-
+    console.log(user.authorizedApps)
     if (!user) return res.send({ success: false, message: "Invalid Token" });
+  
     res.send({ success: true, authorizedApps: user.authorizedApps });
   } catch (e) {
     res.send({ success: false, message: "Error in /oAuthApps/authorized" });

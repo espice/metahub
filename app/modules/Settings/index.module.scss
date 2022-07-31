@@ -8,6 +8,12 @@
   width: 66%;
 }
 
+.appimg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
 .content span {
   color: #0668e1;
 }
@@ -102,7 +108,7 @@
 
 .appCard {
   display: flex;
-  justify-content: space-between;
+  
   align-items: center;
   // width: 100%;
   padding: 20px 32px;
@@ -137,15 +143,33 @@
   margin-top: 8px;
 }
 
+.appshit {
+  margin-left: 20px;
+}
+
 .appEdit {
   display: flex;
   align-items: center;
   color: var(--primary);
   font-size: 18px;
   font-weight: 700;
+  margin-left: auto;
   padding: 16px 32px;
   border-radius: 5px;
   background: rgba(6, 104, 225, 0.1);
+  cursor: pointer;
+  border: none;
+}
+.appRevoke {
+  display: flex;
+  align-items: center;
+  color: #FF2F2F;
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: auto;
+  padding: 14px 32px;
+  border-radius: 5px;
+  background: rgba(#FF2F2F, 0.1);
   cursor: pointer;
   border: none;
 }

@@ -125,7 +125,7 @@ export default function Content() {
                 {OAuthApps.map((app, index) => (
                   <div className={styles.appCard} key={index}>
                     <div>
-                      <div className={styles.MetaHub}>{app.name}</div>
+                      <div className={styles.appName}>{app.name}</div>
                       <div className={styles.something}>
                         <div className={styles.dot}></div>
                         {`${app.authorizedUsers.length} ${
