@@ -108,3 +108,123 @@
     }
   }
 }
+
+.explore__grid {
+  width: 100%;
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-gap: 20px;
+
+  &__item {
+    height: 250px;
+
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+   
+    border: 3px solid #ebebeb;
+    width: 100%;
+    &__left {
+      margin: 0px auto auto 0;
+      height: 100%;
+      width: 60%;
+
+      img {
+        max-width: 157px;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 8px 0px 0 8px;
+      }
+    }
+
+    &__right {
+      margin: 2% auto auto -40px;
+      width: 80%;
+      height: 90%;
+      display: flex;
+      flex-direction: column;
+
+      &__title {
+        font-size: 24px;
+        margin-bottom: 6px;
+        font-weight: 800;
+        color: var(--grey-1000);
+        margin-top: 0;
+        
+      }
+
+      &__status {
+        margin-top: 6px;
+        display: flex;
+        gap: 25px;
+
+        &__total {
+          display: flex;
+          gap: 6px;
+
+          &__icon {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--grey-200);
+            margin: auto;
+          }
+
+          :nth-child(2) {
+            color: var(--grey-600);
+            font-weight: 500;
+            margin: auto;
+          }
+        }
+
+        &__online {
+          display: flex;
+          gap: 6px;
+
+          &__icon {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--neon-green);
+            margin: auto;
+          }
+
+          :nth-child(2) {
+            color: var(--grey-600);
+            font-weight: 500;
+            margin: auto;
+          }
+        }
+      }
+
+      &__copy {
+        display: flex;
+        gap: 6px;
+        margin-top: auto;
+        font-size: 14px;
+        background-color: rgba(#0668e1, 0.1);
+        width: fit-content;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        :nth-child(2) {
+          color: var(--primary);
+          font-weight: 500;
+        }
+
+        &:hover {
+          background-color: rgba(#0668e1, 0.25);
+        }
+      }
+    }
+  }
+}
+
+.shit {
+  color: #707070;
+  font-weight: 600;
+  margin-top: 30px;
+}
