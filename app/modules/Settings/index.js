@@ -5,15 +5,20 @@ import axios from '../../utils/axios';
 export default function Content() {
   const [selected, setSelected] = useState('profile');
   const [appIndex, setAppIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [OAuthApps, setOAuthApps] = useState([]);
+  const [authorizedApps, setAuthorizedApps] = useState([])
 
   useEffect(() => {
     async function fetchApps() {
-      setLoading(true);
+     
       const data = await axios.get('/oAuthApps');
+      const authdata = await axios.get("/oAuthApps/authorized")
       // console.log(data.data.apps);
+      console.log(authdata.data)
       setOAuthApps(data.data.apps);
+      setAuthorizedApps(authdata.data.authorizedApps)
+    
       setLoading(false);
     }
 
@@ -63,6 +68,7 @@ export default function Content() {
               }
               onClick={() => setSelected('verses')}
             >
+            
               Authorized Verses
             </div>
             <div
@@ -107,8 +113,40 @@ export default function Content() {
           ) : selected == 'verses' ? (
             <div className={styles.verses}>
               <div className={styles.oauth__heading}>
-                <h2>Your Verses</h2>
+                <h2>Your Verses sd</h2>
+                  
               </div>
+              <div className={styles.oauth__apps}>
+
+                {console.log(authorizedApps)}
+                  { authorizedApps ? (authorizedApps.map((app, index) => (
+
+                    <div className={styles.appCard} key={index}>
+                      {console.log(app)}
+                      <img src={app.logo} className={styles.appimg}></img>
+                      <div className={styles.appshit}>
+                        
+                        <div className={styles.appName}>{app.name}</div>
+                        <div className={styles.something}>
+                          <div className={styles.dot}></div>
+                          {`${app.authorizedUsers.length} ${
+                            app.authorizedUsers.length == 1 ? 'Member' : 'Members'
+                          }`}
+                        </div>
+                      </div>
+                      <button
+                        className={styles.appRevoke}
+                        onClick={() => {
+                          console.log(index);
+                          setAppIndex(index);
+                          setSelected('oauth-edit');
+                        }}
+                      >
+                        Revoke Access
+                      </button>
+                    </div>
+                  )) ) : null}
+                </div>
             </div>
           ) : selected == 'reports' ? (
             <div className={styles.reports}>
@@ -124,7 +162,8 @@ export default function Content() {
               <div className={styles.oauth__apps}>
                 {OAuthApps.map((app, index) => (
                   <div className={styles.appCard} key={index}>
-                    <div>
+                    <img src={app.logo} className={styles.appimg}></img>
+                    <div className={styles.appshit}>
                       <div className={styles.appName}>{app.name}</div>
                       <div className={styles.something}>
                         <div className={styles.dot}></div>
