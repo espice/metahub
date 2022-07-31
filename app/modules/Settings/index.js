@@ -196,7 +196,8 @@ export default function Content() {
               <div className={styles.oauth__apps}>
                 {OAuthApps.map((app, index) => (
                   <div className={styles.appCard} key={index}>
-                    <div>
+                    <img src={app.logo} className={styles.appimg}></img>
+                    <div className={styles.appshit}>
                       <div className={styles.appName}>{app.name}</div>
                       <div className={styles.something}>
                         <div className={styles.dot}></div>

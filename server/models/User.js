@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -24,11 +24,12 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    default: "yoyo",
+    default:
+      'https://media.discordapp.net/attachments/1001775637658353765/1003319839177322639/unknown.png',
   },
   OAuthApps: {
     type: [String],
-    ref: "OAuthApp",
+    ref: 'OAuthApp',
     default: [],
   },
   dob: {
@@ -37,14 +38,14 @@ const userSchema = new mongoose.Schema({
   },
   authorizedApps: {
     type: [String],
-    ref: "OAuthApp",
+    ref: 'OAuthApp',
     default: [],
   },
   reports: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "Report",
+    ref: 'Report',
     default: [],
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);
