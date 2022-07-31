@@ -9,7 +9,7 @@
 ### 2) Redirect your user to the following page for authorization -
 
 ```
-https://produrl.vercel.app/oauth/authorize?clientId={{clientId}}
+https://minet-metaverse.vercel.app/oauth/authorize?clientId={{clientId}}
 ```
 
 #### Parameters -
@@ -23,7 +23,7 @@ https://produrl.vercel.app/oauth/authorize?clientId={{clientId}}
 ### 4) Send a request with the code, clientId and clientSecret to the following URL -
 
 ```
-https://produrl.herokuapp.com/auth/access_token?code={{code}}&clientId={{clientId}}&clientSecret={{clientSecret}}
+http://metahub-api.herokuapp.com/auth/access_token?code={{code}}&clientId={{clientId}}&clientSecret={{clientSecret}}
 ```
 
 #### Parameters -
@@ -39,17 +39,17 @@ https://produrl.herokuapp.com/auth/access_token?code={{code}}&clientId={{clientI
 #### To send authenticated requests, set an `Authorization` header with the access token as its value. For eg -
 
 ```
-curl -H "Authorization: ACCESS-TOKEN" https://produrl.herokuapp.com/auth/me
+curl -H "Authorization: ACCESS-TOKEN" http://metahub-api.herokuapp.com/auth/me
 ```
 
 ## Report API
 
 ### Report a user
 
-#### Send an authenticated request to `https://produrl.herokuapp.com/report` as follows -
+#### Send an authenticated request to `http://metahub-api.herokuapp.com/eport` as follows -
 
 ```
-POST https://produrl.herokuapp.com/report
+POST http://metahub-api.herokuapp.com/report
 ```
 
 #### Body
@@ -64,10 +64,10 @@ POST https://produrl.herokuapp.com/report
 
 ### Get Infractions of a user
 
-#### Send an authenticated request to `https://produrl.herokuapp.com/report` as follows -
+#### Send an authenticated request to `http://metahub-api.herokuapp.com/report` as follows -
 
 ```
-GET https://produrl.herokuapp.com/report
+http://metahub-api.herokuapp.com/report
 ```
 
 ### NOTE - This is an authenticated request and thus requires the `Authorization` Header
