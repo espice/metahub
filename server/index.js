@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
   res.send('Hare Krishna');
 });
 
-const port = 4000;
-app.listen(port || process.env.PORT, () => {
+const port = 4000 || process.env.PORT;
+app.listen(port, () => {
   console.log(`Server Listening on port ${port}`);
 });
