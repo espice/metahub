@@ -4,6 +4,7 @@ import axios from '../../utils/axios';
 
 export default function Content() {
   const [selected, setSelected] = useState('profile');
+  const [appIndex, setAppIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [OAuthApps, setOAuthApps] = useState([]);
 
@@ -80,7 +81,9 @@ export default function Content() {
           <div>
             <div
               className={
-                selected == 'oauth' ? styles.somebutton : styles.someotherbutton
+                selected == 'oauth' || selected == 'oauth-edit'
+                  ? styles.somebutton
+                  : styles.someotherbutton
               }
               onClick={() => setSelected('oauth')}
             >
@@ -90,13 +93,29 @@ export default function Content() {
         </div>
         <div className={styles.right}>
           {selected == 'profile' ? (
-            <div className={styles.profile}>profile</div>
+            <div className={styles.profile}>
+              <div className={styles.oauth__heading}>
+                <h2>Your Profile</h2>
+              </div>
+            </div>
           ) : selected == 'settings' ? (
-            <div className={styles.settings}>settings</div>
+            <div className={styles.settings}>
+              <div className={styles.oauth__heading}>
+                <h2>Your Settings</h2>
+              </div>
+            </div>
           ) : selected == 'verses' ? (
-            <div className={styles.verses}>verses</div>
+            <div className={styles.verses}>
+              <div className={styles.oauth__heading}>
+                <h2>Your Verses</h2>
+              </div>
+            </div>
           ) : selected == 'reports' ? (
-            <div className={styles.reports}>reports</div>
+            <div className={styles.reports}>
+              <div className={styles.oauth__heading}>
+                <h2>Your Reports</h2>
+              </div>
+            </div>
           ) : selected == 'oauth' ? (
             <div className={styles.oauth}>
               <div className={styles.oauth__heading}>
@@ -114,9 +133,37 @@ export default function Content() {
                         }`}
                       </div>
                     </div>
-                    <div className={styles.appEdit}>Edit</div>
+                    <button
+                      className={styles.appEdit}
+                      onClick={() => {
+                        console.log(index);
+                        setAppIndex(index);
+                        setSelected('oauth-edit');
+                      }}
+                    >
+                      Edit
+                    </button>
                   </div>
                 ))}
+              </div>
+            </div>
+          ) : selected == 'oauth-edit' ? (
+            <div className={styles.edit}>
+              <div className={styles.edit__heading}>
+                <h2>{OAuthApps[appIndex].name}</h2>
+                <h3>Owned by You</h3>
+              </div>
+              <div className={styles.edit__body}>
+                <div className={styles.edit__users}>
+                  <div className={styles.edit__count}>{`${
+                    OAuthApps[appIndex].authorizedUsers.length
+                  } ${
+                    OAuthApps[appIndex].authorizedUsers.length == 1
+                      ? 'User'
+                      : 'Users'
+                  }`}</div>
+                </div>
+                <hr />
               </div>
             </div>
           ) : null}
