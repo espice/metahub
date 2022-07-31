@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 export default function Content() {
   return (
     <div className={styles.content}>
-      {/* <div className={styles.left}>
+      <div className={styles.left}>
         <div>
           <h1>
             Welcome to <span className={styles.blue}>App Name</span>.
@@ -27,7 +27,7 @@ export default function Content() {
             </div>
           </TextButton>
         </div>
-      </div> */}
+      </div>
       <img src="https://cdn.discordapp.com/attachments/778128218128515074/1002715143379095763/unknown.png" />
     </div>
   );

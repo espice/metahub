@@ -11,17 +11,28 @@ export default function Content() {
   const [authorizedApps, setAuthorizedApps] = useState([]);
   const [revealed, setRevealed] = useState(false);
   const [myData, setMyData] = useState({});
+  const [reports, setReports] = useState([]);
+  const [reportUsers, setReportUsers] = useState([]);
 
   useEffect(() => {
     async function fetchApps() {
-      const data = await axios.get("/oAuthApps");
-      const authdata = await axios.get("/oAuthApps/authorized");
-      const mydata = await axios.get("/auth/me");
+      const data = await axios.get('/oAuthApps');
+      const authdata = await axios.get('/oAuthApps/authorized');
+      const mydata = await axios.get('/auth/me');
+      const reportsdata = await axios.get('/report');
 
+      setReports(reportsdata.data.reports);
       setOAuthApps(data.data.apps);
       setAuthorizedApps(authdata.data.authorizedApps);
       setMyData(mydata.data.user);
 
+      reports.forEach(async (report) => {
+        const user = await axios.get(`/auth/me`);
+        const userdata = user.data.user;
+        report.user = userdata;
+        setReportUsers([...reportUsers, report.user]);
+      });
+      console.log(reportUsers);
       setLoading(false);
     }
 
@@ -177,7 +188,31 @@ export default function Content() {
           ) : selected == "reports" ? (
             <div className={styles.reports}>
               <div className={styles.oauth__heading}>
-                <h2>Your Reports</h2>
+                <h2>Reports</h2>
+              </div>
+              <div className={styles.reportsList}>
+                {reports.map((report, index) => (
+                  <div className={styles.appCard} key={index}>
+                    <div className={styles.somerow}>
+                      <img
+                        src={report.verse.logo}
+                        className={styles.appimg}
+                      ></img>
+                      <div className={styles.appshit}>
+                        <div className={styles.appName}>
+                          {report.verse.name}
+                        </div>
+                        <div className={styles.someotherthing}>
+                          <div>Reason -</div>
+                          <div>{report.reason}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <button className={styles.appEdit}>Appeal</button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           ) : selected == "oauth" ? (

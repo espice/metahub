@@ -116,7 +116,6 @@
 
 .appCard {
   display: flex;
-
   align-items: center;
   // width: 100%;
   padding: 20px 32px;
@@ -124,6 +123,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: none;
+  justify-content: space-between;
   border: 1px solid #dadada;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -166,8 +166,8 @@
   align-items: center;
   color: var(--primary);
   font-size: 18px;
-  font-weight: 700;
   margin-left: auto;
+  font-weight: 700;
   padding: 16px 32px;
   border-radius: 5px;
   background: rgba(6, 104, 225, 0.1);
@@ -316,4 +316,24 @@
   color: #212121;
   font-weight: 700;
   font-size: 24px;
+}
+
+.somerow {
+  display: flex;
+}
+
+.someotherthing {
+  display: flex;
+  flex-direction: column;
+  color: #707070;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 8px;
+
+  :nth-child(2) {
+    font-size: 18px;
+    font-weight: 500;
+    color: #212121;
+    margin-top: 4px;
+  }
 }
