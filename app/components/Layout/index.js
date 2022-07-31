@@ -1,15 +1,15 @@
-import Head from 'next/head';
-import Header from '../Header';
-import { Children } from 'react';
-import styles from './index.module.scss';
-import useSession from '../../utils/hooks/useSession';
-import { useRouter } from 'next/router';
-import Loader from '../Loader';
+import Head from "next/head";
+import Header from "../Header";
+import { Children } from "react";
+import styles from "./index.module.scss";
+import useSession from "../../utils/hooks/useSession";
+import { useRouter } from "next/router";
+import Loader from "../Loader";
 
 export default function Layout({ children, page }) {
   const { user, error, loading } = useSession();
-  console.log(loading, "hi")
-  console.log(error, !error)
+  console.log(loading, "hi");
+  console.log(error, !error);
   const router = useRouter();
 
   return (
@@ -26,11 +26,11 @@ export default function Layout({ children, page }) {
       </Head>
 
       <div className={styles.main}>
-        {router.pathname === '/' ||
-        router.pathname === '/login' ||
-        router.pathname === '/register' ? (
+        {router.pathname === "/" ||
+        router.pathname === "/login" ||
+        router.pathname === "/register" ? (
           <>
-            <Header />
+            {!page.hideHeader && <Header />}
             <div className={styles.content}>{children}</div>
           </>
         ) : loading ? (
@@ -39,7 +39,7 @@ export default function Layout({ children, page }) {
           <Loader center={true} />
         ) : (
           <>
-            <Header />
+            {!page.hideHeader && <Header />}
             <div className={styles.content}>{children}</div>
           </>
         )}

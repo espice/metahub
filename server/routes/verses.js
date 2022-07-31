@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 router.get("/my", auth, async (req, res) => {
   try {
-    const user = await User.findOne({ id: req.user.id }).populate({
+    const user = await User.findOne({ _id: req.user.id }).populate({
       path: "authorizedApps",
       select: "-clientId -clientSecret -_id",
     });
