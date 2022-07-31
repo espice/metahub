@@ -9,6 +9,7 @@ export default function Content() {
   const [loading, setLoading] = useState(false);
   const [OAuthApps, setOAuthApps] = useState([]);
   const [authorizedApps, setAuthorizedApps] = useState([]);
+  const [revealed, setRevealed] = useState(false);
   const [myData, setMyData] = useState({});
 
   useEffect(() => {
@@ -186,6 +187,7 @@ export default function Content() {
                         description: 'This is a new app',
                       });
                       console.log(data.data);
+                      setLoading(true);
                     }
                     createApp();
                   }}
@@ -212,6 +214,7 @@ export default function Content() {
                         console.log(index);
                         setAppIndex(index);
                         setSelected('oauth-edit');
+                        setRevealed(false);
                       }}
                     >
                       Edit
@@ -245,29 +248,70 @@ export default function Content() {
                     </div>
                     <div className={styles.credName}>Client Secret</div>
                     <div className={styles.creds}>
-                      {OAuthApps[appIndex].clientSecret.slice(0, -28) +
-                        '****************************'}
+                      {revealed ? (
+                        <div className={styles.creds}>
+                          {OAuthApps[appIndex].clientSecret}
+                        </div>
+                      ) : (
+                        <>
+                          {OAuthApps[appIndex].clientSecret.slice(0, -28) +
+                            '****************************'}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className={styles.reveal}>
-                    <button className={styles.credReveal}>Reveal</button>
+                    <button
+                      className={styles.credReveal}
+                      onClick={() => {
+                        setRevealed(!revealed);
+                      }}
+                    >
+                      Reveal
+                    </button>
                   </div>
                 </div>
                 <hr />
                 <div>
                   <div className={styles.credName}>Callback URL</div>
                   <Textfield
+                    id={'url'}
                     type={'url'}
                     placeholder={'Callback URL'}
                     className={styles.content__container__input}
                   ></Textfield>
                   <div className={styles.credName}>Description</div>
                   <Textfield
+                    id={'description'}
                     type={'text'}
                     placeholder={'Description'}
                     className={styles.content__container__input}
                   ></Textfield>
-                  <button className={styles.oauth__save}>Save</button>
+                  <button
+                    className={styles.oauth__save}
+                    onClick={() => {
+                      console.log('clicked');
+                      async function updateApp() {
+                        const callbackUrl =
+                          document.getElementById('url').value;
+                        const description =
+                          document.getElementById('description').value;
+                        const data = await axios.put(
+                          `/oAuthApps/${OAuthApps[appIndex]._id}`,
+                          {
+                            name: 'New App',
+                            callbackUrl: 'http://localhost:3001',
+                            description: 'This is a new app',
+                          }
+                        );
+                        console.log(data.data);
+                        setLoading(true);
+                      }
+                      updateApp();
+                    }}
+                  >
+                    Save
+                  </button>
                 </div>
               </div>
             </div>
