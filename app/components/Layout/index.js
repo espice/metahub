@@ -1,14 +1,14 @@
-import Head from 'next/head';
-import Header from '../Header';
-import { Children } from 'react';
-import styles from './index.module.scss';
-import useSession from '../../utils/hooks/useSession';
-import { useRouter } from 'next/router';
-import Loader from '../Loader';
+import Head from "next/head";
+import Header from "../Header";
+import { Children } from "react";
+import styles from "./index.module.scss";
+import useSession from "../../utils/hooks/useSession";
+import { useRouter } from "next/router";
+import Loader from "../Loader";
 
 export default function Layout({ children, page }) {
   const { user, error, loading } = useSession();
-  console.log(loading, 'hi');
+  console.log(loading, "hi");
   console.log(error, !error);
   const router = useRouter();
 
@@ -25,10 +25,11 @@ export default function Layout({ children, page }) {
         />
       </Head>
       <>
+        <img src="background.svg" className={styles.bg} />
         <div className={styles.main}>
-          {router.pathname === '/' ||
-          router.pathname === '/login' ||
-          router.pathname === '/register' ? (
+          {router.pathname === "/" ||
+          router.pathname === "/login" ||
+          router.pathname === "/register" ? (
             <>
               {!page.hideHeader && <Header />}
               <div className={styles.content}>{children}</div>

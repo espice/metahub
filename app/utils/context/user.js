@@ -48,7 +48,9 @@ function UserProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchUser();
+    if (loading == true) {
+      fetchUser();
+    }
   }, [loading]);
 
   const updateUser = async (user) => {
