@@ -213,7 +213,7 @@ router.get("/apps/:clientId", auth, async (req, res) => {
     });
     if (!app) return res.send({ success: false, message: "Invalid Client ID" });
 
-    const user = await User.findOne({ id: req.user.id }).lean();
+    const user = await User.findOne({ _id: req.user.id }).lean();
     if (!user) return res.send({ success: false, message: "Invalid Token" });
 
     const alreadyAuthorized = app.authorizedUsers.some(
