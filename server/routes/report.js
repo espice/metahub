@@ -19,6 +19,7 @@ router.get("/", auth, async (req, res) => {
       path: "reports",
       populate: {
         path: "verse",
+        select: "-clientId -clientSecret -authorizedUsers -_id"
       },
     });
 

@@ -15,6 +15,20 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+router.get("/authorized", auth, async (req, res) => {
+  try {
+    const user = await User.findOne({ id: req.user.id }).populate({
+      path: "authorizedApps",
+      select: "-clientId -clientSecret -_id",
+    });
+
+    if (!user) return res.send({ success: false, message: "Invalid Token" });
+    res.send({ success: true, authorizedApps: user.authorizedApps });
+  } catch (e) {
+    res.send({ success: false, message: "Error in /oAuthApps/authorized" });
+  }
+});
+
 router.post("/", auth, async (req, res) => {
   try {
     const newApp = {
