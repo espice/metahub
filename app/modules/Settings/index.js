@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './index.module.scss';
+import Textfield from '../../components/Textfield';
 import axios from '../../utils/axios';
 
 export default function Content() {
@@ -7,18 +8,17 @@ export default function Content() {
   const [appIndex, setAppIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [OAuthApps, setOAuthApps] = useState([]);
-  const [authorizedApps, setAuthorizedApps] = useState([])
+  const [authorizedApps, setAuthorizedApps] = useState([]);
 
   useEffect(() => {
     async function fetchApps() {
-     
       const data = await axios.get('/oAuthApps');
-      const authdata = await axios.get("/oAuthApps/authorized")
+      const authdata = await axios.get('/oAuthApps/authorized');
       // console.log(data.data.apps);
-      console.log(authdata.data)
+      console.log(authdata.data);
       setOAuthApps(data.data.apps);
-      setAuthorizedApps(authdata.data.authorizedApps)
-    
+      setAuthorizedApps(authdata.data.authorizedApps);
+
       setLoading(false);
     }
 
@@ -68,7 +68,6 @@ export default function Content() {
               }
               onClick={() => setSelected('verses')}
             >
-            
               Authorized Verses
             </div>
             <div
@@ -114,39 +113,39 @@ export default function Content() {
             <div className={styles.verses}>
               <div className={styles.oauth__heading}>
                 <h2>Your Verses sd</h2>
-                  
               </div>
               <div className={styles.oauth__apps}>
-
                 {console.log(authorizedApps)}
-                  { authorizedApps ? (authorizedApps.map((app, index) => (
-
-                    <div className={styles.appCard} key={index}>
-                      {console.log(app)}
-                      <img src={app.logo} className={styles.appimg}></img>
-                      <div className={styles.appshit}>
-                        
-                        <div className={styles.appName}>{app.name}</div>
-                        <div className={styles.something}>
-                          <div className={styles.dot}></div>
-                          {`${app.authorizedUsers.length} ${
-                            app.authorizedUsers.length == 1 ? 'Member' : 'Members'
-                          }`}
+                {authorizedApps
+                  ? authorizedApps.map((app, index) => (
+                      <div className={styles.appCard} key={index}>
+                        {console.log(app)}
+                        <img src={app.logo} className={styles.appimg}></img>
+                        <div className={styles.appshit}>
+                          <div className={styles.appName}>{app.name}</div>
+                          <div className={styles.something}>
+                            <div className={styles.dot}></div>
+                            {`${app.authorizedUsers.length} ${
+                              app.authorizedUsers.length == 1
+                                ? 'Member'
+                                : 'Members'
+                            }`}
+                          </div>
                         </div>
+                        <button
+                          className={styles.appRevoke}
+                          onClick={() => {
+                            console.log(index);
+                            setAppIndex(index);
+                            setSelected('oauth-edit');
+                          }}
+                        >
+                          Revoke Access
+                        </button>
                       </div>
-                      <button
-                        className={styles.appRevoke}
-                        onClick={() => {
-                          console.log(index);
-                          setAppIndex(index);
-                          setSelected('oauth-edit');
-                        }}
-                      >
-                        Revoke Access
-                      </button>
-                    </div>
-                  )) ) : null}
-                </div>
+                    ))
+                  : null}
+              </div>
             </div>
           ) : selected == 'reports' ? (
             <div className={styles.reports}>
@@ -158,6 +157,23 @@ export default function Content() {
             <div className={styles.oauth}>
               <div className={styles.oauth__heading}>
                 <h2>Your OAuth Applications</h2>
+                <button
+                  className={styles.oauth__create}
+                  onClick={() => {
+                    console.log('clicked');
+                    async function createApp() {
+                      const data = await axios.post('/oAuthApps/', {
+                        name: 'New App',
+                        callbackUrl: 'http://localhost:3001',
+                        description: 'This is a new app',
+                      });
+                      console.log(data.data);
+                    }
+                    createApp();
+                  }}
+                >
+                  Create New
+                </button>
               </div>
               <div className={styles.oauth__apps}>
                 {OAuthApps.map((app, index) => (
@@ -203,6 +219,38 @@ export default function Content() {
                   }`}</div>
                 </div>
                 <hr />
+                <div className={styles.clientShit}>
+                  <div>
+                    <div className={styles.credName}>Client ID</div>
+                    <div className={styles.creds}>
+                      {OAuthApps[appIndex].clientId}
+                    </div>
+                    <div className={styles.credName}>Client Secret</div>
+                    <div className={styles.creds}>
+                      {OAuthApps[appIndex].clientSecret.slice(0, -28) +
+                        '****************************'}
+                    </div>
+                  </div>
+                  <div className={styles.reveal}>
+                    <button className={styles.credReveal}>Reveal</button>
+                  </div>
+                </div>
+                <hr />
+                <div>
+                  <div className={styles.credName}>Callback URL</div>
+                  <Textfield
+                    type={'url'}
+                    placeholder={'Callback URL'}
+                    className={styles.content__container__input}
+                  ></Textfield>
+                  <div className={styles.credName}>Description</div>
+                  <Textfield
+                    type={'text'}
+                    placeholder={'Description'}
+                    className={styles.content__container__input}
+                  ></Textfield>
+                  <button className={styles.oauth__save}>Save</button>
+                </div>
               </div>
             </div>
           ) : null}

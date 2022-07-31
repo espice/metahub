@@ -27,7 +27,7 @@
 .content {
   width: 100%;
   height: 100%;
-  margin-top: 20px;
+  // margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,6 +39,7 @@
   color: #0668e1;
   // filter: blur(8px);
   backdrop-filter: blur(2px);
+  border: none;
   // -webkit-filter: blur(8px);
   padding: 12px 24px;
   margin-top: 8px;
@@ -88,6 +89,7 @@
   margin-left: 1vw;
   // background-color: #dadada;
   border-radius: 8px;
+  margin-bottom: 40vh;
 }
 
 .oauth__heading h2 {
@@ -98,17 +100,23 @@
   margin-bottom: 0;
 }
 
+.oauth__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .left {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  // justify-content: center;
   width: 14vw;
   margin-right: 1vw;
 }
 
 .appCard {
   display: flex;
-  
+
   align-items: center;
   // width: 100%;
   padding: 20px 32px;
@@ -163,13 +171,13 @@
 .appRevoke {
   display: flex;
   align-items: center;
-  color: #FF2F2F;
+  color: #ff2f2f;
   font-size: 18px;
   font-weight: 700;
   margin-left: auto;
   padding: 14px 32px;
   border-radius: 5px;
-  background: rgba(#FF2F2F, 0.1);
+  background: rgba(#ff2f2f, 0.1);
   cursor: pointer;
   border: none;
 }
@@ -193,4 +201,75 @@
   font-size: 20px;
   font-weight: 600;
   margin-top: 24px;
+}
+
+.oauth__create {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-size: 18px;
+  font-weight: 700;
+  margin-left: auto;
+  padding: 16px 32px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  border: none;
+}
+
+.credName {
+  color: #2f2f2f;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.creds {
+  display: flex;
+  align-items: center;
+  color: #2f2f2f;
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.oauth__save {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-size: 16px;
+  backdrop-filter: blur(2px);
+  font-weight: 700;
+  margin-top: 16px;
+  padding: 16px 32px;
+  border-radius: 5px;
+  background: rgba(6, 104, 225, 0.1);
+  cursor: pointer;
+  border: none;
+}
+
+.clientShit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reveal {
+  align-self: flex-end;
+}
+
+.credReveal {
+  display: flex;
+  align-items: center;
+  color: var(--primary);
+  font-size: 16px;
+  backdrop-filter: blur(2px);
+  font-weight: 700;
+  margin-top: 16px;
+  padding: 16px 32px;
+  border-radius: 5px;
+  background: rgba(6, 104, 225, 0.1);
+  cursor: pointer;
+  border: none;
 }
