@@ -3,7 +3,7 @@ const config = {
   MONGODB_URI: process.env.MONGODB_URI,
   allowedOrigins:
     process.env.NODE_ENV == "production"
-      ? ["produrl"]
+      ? ["https://minet-metaverse.vercel.app/"]
       : ["http://localhost:3000", "http://localhost:3001"],
   cookieConfig:
     process.env.NODE_ENV == "production"
