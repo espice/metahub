@@ -9,15 +9,17 @@ export default function Content() {
   const [loading, setLoading] = useState(false);
   const [OAuthApps, setOAuthApps] = useState([]);
   const [authorizedApps, setAuthorizedApps] = useState([]);
+  const [myData, setMyData] = useState({});
 
   useEffect(() => {
     async function fetchApps() {
       const data = await axios.get('/oAuthApps');
       const authdata = await axios.get('/oAuthApps/authorized');
-      // console.log(data.data.apps);
-      console.log(authdata.data);
+      const mydata = await axios.get('/auth/me');
+
       setOAuthApps(data.data.apps);
       setAuthorizedApps(authdata.data.authorizedApps);
+      setMyData(mydata.data.user);
 
       setLoading(false);
     }
@@ -98,9 +100,25 @@ export default function Content() {
         </div>
         <div className={styles.right}>
           {selected == 'profile' ? (
-            <div className={styles.profile}>
-              <div className={styles.oauth__heading}>
-                <h2>Your Profile</h2>
+            <div className={styles.main}>
+              <div className={styles.profile}>
+                <div className={styles.profile__field}>
+                  <div className={styles.profile__field__label}>USERNAME</div>
+                  <div className={styles.profile__field__value}>
+                    {myData.username}#{myData.tag}
+                  </div>
+                </div>
+
+                <div className={styles.profile__field}>
+                  <div className={styles.profile__field__label}>EMAIL</div>
+                  <div className={styles.profile__field__value}>
+                    {myData.email}
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.avatar}>
+                <div className={styles.profile__field__label}>AVATAR</div>
               </div>
             </div>
           ) : selected == 'settings' ? (
@@ -112,7 +130,7 @@ export default function Content() {
           ) : selected == 'verses' ? (
             <div className={styles.verses}>
               <div className={styles.oauth__heading}>
-                <h2>Your Verses sd</h2>
+                <h2>Your Verses</h2>
               </div>
               <div className={styles.oauth__apps}>
                 {console.log(authorizedApps)}
@@ -125,11 +143,11 @@ export default function Content() {
                           <div className={styles.appName}>{app.name}</div>
                           <div className={styles.something}>
                             <div className={styles.dot}></div>
-                            {`${app.authorizedUsers.length} ${
+                            <div>{`${app.authorizedUsers.length} ${
                               app.authorizedUsers.length == 1
                                 ? 'Member'
                                 : 'Members'
-                            }`}
+                            }`}</div>
                           </div>
                         </div>
                         <button
