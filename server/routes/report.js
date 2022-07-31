@@ -8,6 +8,7 @@ router.post("/", auth, async (req, res) => {
   try {
     const verseId = req.body.clientId;
     const againstUser = req.body.againstId;
+    res.send({ success: true, message: "reported" });
   } catch (e) {
     res.send({ success: false, message: "Error occured in /report" });
   }
@@ -19,7 +20,7 @@ router.get("/", auth, async (req, res) => {
       path: "reports",
       populate: {
         path: "verse",
-        select: "-clientId -clientSecret -authorizedUsers -_id"
+        select: "-clientId -clientSecret -authorizedUsers -_id",
       },
     });
 
