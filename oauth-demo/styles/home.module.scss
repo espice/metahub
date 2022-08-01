@@ -8,3 +8,30 @@
   font-weight: 500;
   cursor: pointer;
 }
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  & img {
+    height: 300px;
+  }
+
+  & p {
+    padding-top: 40px;
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  & span {
+    font-weight: 500;
+    font-size: 20px;
+  }
+
+  & div {
+    font-weight: 500;
+    font-size: 20px;
+    margin-top: 20px;
+  }
+}

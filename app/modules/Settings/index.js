@@ -15,6 +15,14 @@ export default function Content() {
   const [reportUsers, setReportUsers] = useState([]);
   const [callbackUrl, setCallbackUrl] = useState('');
   const [description, setDescription] = useState('');
+<<<<<<< HEAD
+=======
+  const [createData, setCreateData] = useState({
+    name: '',
+    description: '',
+    callbackUrl: '',
+  });
+>>>>>>> 8ccab7e4608084b68aa91a7c48dbf5f2aa29e57e
 
   useEffect(() => {
     async function fetchApps() {
@@ -102,7 +110,13 @@ export default function Content() {
           <div>
             <div
               className={
+<<<<<<< HEAD
                 selected == 'oauth' || selected == 'oauth-edit'
+=======
+                selected == 'oauth' ||
+                selected == 'oauth-edit' ||
+                selected == 'oauth-create'
+>>>>>>> 8ccab7e4608084b68aa91a7c48dbf5f2aa29e57e
                   ? styles.somebutton
                   : styles.someotherbutton
               }
@@ -225,6 +239,7 @@ export default function Content() {
                   className={styles.oauth__create}
                   onClick={() => {
                     console.log('clicked');
+<<<<<<< HEAD
                     async function createApp() {
                       const data = await axios.post('/oAuthApps/', {
                         name: 'New App',
@@ -235,6 +250,9 @@ export default function Content() {
                       setLoading(true);
                     }
                     createApp();
+=======
+                    setSelected('oauth-create');
+>>>>>>> 8ccab7e4608084b68aa91a7c48dbf5f2aa29e57e
                   }}
                 >
                   Create New
@@ -381,6 +399,82 @@ export default function Content() {
                     Save
                   </button>
                 </div>
+              </div>
+            </div>
+          ) : selected == 'oauth-create' ? (
+            <div className={styles.create}>
+              <div className={styles.oauth__heading}>
+                <h2>Create New OAuth App</h2>
+              </div>
+              <div className={styles.credName}>Name</div>
+              <Textfield
+                id={'createName'}
+                type={'text'}
+                placeholder={'Name'}
+                className={styles.content__container__input}
+                onChange={(e) =>
+                  setCreateData({
+                    ...createData,
+                    name: e.target.value,
+                  })
+                }
+              ></Textfield>
+              <div className={styles.credName}>Description</div>
+              <textarea
+                id={'createDescription'}
+                placeholder={'Description'}
+                className={styles.content__container__inputDesc}
+                onChange={(e) =>
+                  setCreateData({
+                    ...createData,
+                    description: e.target.value,
+                  })
+                }
+              ></textarea>
+              <div className={styles.credName}>Callback URL</div>
+              <Textfield
+                id={'createUrl'}
+                type={'url'}
+                placeholder={'Callback URL'}
+                onChange={(e) =>
+                  setCreateData({
+                    ...createData,
+                    callbackUrl: e.target.value,
+                  })
+                }
+                className={styles.content__container__input}
+              ></Textfield>
+              <div className={styles.createButtons}>
+                <button
+                  className={styles.appCreate}
+                  onClick={() => {
+                    async function createApp() {
+                      const data = await axios.post('/oAuthApps/', createData);
+                      console.log(data);
+
+                      if (data.data.success) {
+                        setSelected('oauth');
+                      }
+                      setLoading(true);
+                    }
+                    createApp();
+                    setCreateData({
+                      name: '',
+                      description: '',
+                      callbackUrl: '',
+                    });
+                  }}
+                >
+                  Create
+                </button>
+                <button
+                  className={styles.appCancel}
+                  onClick={() => {
+                    setSelected('oauth');
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           ) : null}
