@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import styles from "./index.module.scss";
-import Textfield from "../../components/Textfield";
-import axios from "../../utils/axios";
+import { useEffect, useState } from 'react';
+import styles from './index.module.scss';
+import Textfield from '../../components/Textfield';
+import axios from '../../utils/axios';
 
 export default function Content() {
-  const [selected, setSelected] = useState("profile");
+  const [selected, setSelected] = useState('profile');
   const [appIndex, setAppIndex] = useState(0);
   const [loading, setLoading] = useState(false);
   const [OAuthApps, setOAuthApps] = useState([]);
@@ -13,15 +13,20 @@ export default function Content() {
   const [myData, setMyData] = useState({});
   const [reports, setReports] = useState([]);
   const [reportUsers, setReportUsers] = useState([]);
-  const [callbackUrl, setCallbackUrl] = useState("");
-  const [description, setDescription] = useState("");
+  const [callbackUrl, setCallbackUrl] = useState('');
+  const [description, setDescription] = useState('');
+  const [createData, setCreateData] = useState({
+    name: '',
+    description: '',
+    callbackUrl: '',
+  });
 
   useEffect(() => {
     async function fetchApps() {
-      const data = await axios.get("/oAuthApps");
-      const authdata = await axios.get("/oAuthApps/authorized");
-      const mydata = await axios.get("/auth/me");
-      const reportsdata = await axios.get("/report");
+      const data = await axios.get('/oAuthApps');
+      const authdata = await axios.get('/oAuthApps/authorized');
+      const mydata = await axios.get('/auth/me');
+      const reportsdata = await axios.get('/report');
 
       setReports(reportsdata.data.reports);
       setOAuthApps(data.data.apps);
@@ -54,21 +59,21 @@ export default function Content() {
           <div>
             <div
               className={
-                selected == "profile"
+                selected == 'profile'
                   ? styles.somebutton
                   : styles.someotherbutton
               }
-              onClick={() => setSelected("profile")}
+              onClick={() => setSelected('profile')}
             >
               My Profile
             </div>
             <div
               className={
-                selected == "settings"
+                selected == 'settings'
                   ? styles.somebutton
                   : styles.someotherbutton
               }
-              onClick={() => setSelected("settings")}
+              onClick={() => setSelected('settings')}
             >
               Settings
             </div>
@@ -78,21 +83,21 @@ export default function Content() {
           <div>
             <div
               className={
-                selected == "verses"
+                selected == 'verses'
                   ? styles.somebutton
                   : styles.someotherbutton
               }
-              onClick={() => setSelected("verses")}
+              onClick={() => setSelected('verses')}
             >
               Authorized Verses
             </div>
             <div
               className={
-                selected == "reports"
+                selected == 'reports'
                   ? styles.somebutton
                   : styles.someotherbutton
               }
-              onClick={() => setSelected("reports")}
+              onClick={() => setSelected('reports')}
             >
               Reports
             </div>
@@ -102,18 +107,20 @@ export default function Content() {
           <div>
             <div
               className={
-                selected == "oauth" || selected == "oauth-edit"
+                selected == 'oauth' ||
+                selected == 'oauth-edit' ||
+                selected == 'oauth-create'
                   ? styles.somebutton
                   : styles.someotherbutton
               }
-              onClick={() => setSelected("oauth")}
+              onClick={() => setSelected('oauth')}
             >
               OAuth Applications
             </div>
           </div>
         </div>
         <div className={styles.right}>
-          {selected == "profile" ? (
+          {selected == 'profile' ? (
             <div className={styles.main}>
               <div className={styles.profile}>
                 <div className={styles.profile__field}>
@@ -136,20 +143,20 @@ export default function Content() {
                 <img
                   src={myData.avatar}
                   style={{
-                    height: "60vh",
-                    marginLeft: "40px",
-                    marginTop: "80px",
+                    height: '60vh',
+                    marginLeft: '40px',
+                    marginTop: '80px',
                   }}
                 />
               </div>
             </div>
-          ) : selected == "settings" ? (
+          ) : selected == 'settings' ? (
             <div className={styles.settings}>
               <div className={styles.oauth__heading}>
                 <h2>Your Settings</h2>
               </div>
             </div>
-          ) : selected == "verses" ? (
+          ) : selected == 'verses' ? (
             <div className={styles.verses}>
               <div className={styles.oauth__heading}>
                 <h2>Your Verses</h2>
@@ -167,8 +174,8 @@ export default function Content() {
                             <div className={styles.dot}></div>
                             <div>{`${app.authorizedUsers.length} ${
                               app.authorizedUsers.length == 1
-                                ? "Member"
-                                : "Members"
+                                ? 'Member'
+                                : 'Members'
                             }`}</div>
                           </div>
                         </div>
@@ -177,7 +184,7 @@ export default function Content() {
                           onClick={() => {
                             console.log(index);
                             setAppIndex(index);
-                            setSelected("oauth-edit");
+                            setSelected('oauth-edit');
                           }}
                         >
                           Revoke Access
@@ -187,7 +194,7 @@ export default function Content() {
                   : null}
               </div>
             </div>
-          ) : selected == "reports" ? (
+          ) : selected == 'reports' ? (
             <div className={styles.reports}>
               <div className={styles.oauth__heading}>
                 <h2>Reports</h2>
@@ -217,24 +224,15 @@ export default function Content() {
                 ))}
               </div>
             </div>
-          ) : selected == "oauth" ? (
+          ) : selected == 'oauth' ? (
             <div className={styles.oauth}>
               <div className={styles.oauth__heading}>
                 <h2>Your OAuth Applications</h2>
                 <button
                   className={styles.oauth__create}
                   onClick={() => {
-                    console.log("clicked");
-                    async function createApp() {
-                      const data = await axios.post("/oAuthApps/", {
-                        name: "New App",
-                        callbackUrl: "http://localhost:3001",
-                        description: "This is a new app",
-                      });
-                      console.log(data.data);
-                      setLoading(true);
-                    }
-                    createApp();
+                    console.log('clicked');
+                    setSelected('oauth-create');
                   }}
                 >
                   Create New
@@ -249,7 +247,7 @@ export default function Content() {
                       <div className={styles.something}>
                         <div className={styles.dot}></div>
                         {`${app.authorizedUsers.length} ${
-                          app.authorizedUsers.length == 1 ? "Member" : "Members"
+                          app.authorizedUsers.length == 1 ? 'Member' : 'Members'
                         }`}
                       </div>
                     </div>
@@ -258,7 +256,7 @@ export default function Content() {
                       onClick={() => {
                         console.log(index);
                         setAppIndex(index);
-                        setSelected("oauth-edit");
+                        setSelected('oauth-edit');
                         setCallbackUrl(OAuthApps[index].callbackUrl);
                         setDescription(OAuthApps[index].description);
                         setRevealed(false);
@@ -270,21 +268,21 @@ export default function Content() {
                 ))}
               </div>
             </div>
-          ) : selected == "oauth-edit" ? (
+          ) : selected == 'oauth-edit' ? (
             <div className={styles.edit}>
               <button
                 onClick={() => {
-                  setSelected("oauth");
+                  setSelected('oauth');
                 }}
                 style={{
-                  marginBottom: "10px",
-                  padding: "4px 12px",
-                  border: "none",
-                  borderRadius: "5px",
-                  backgroundColor: "#0668e120",
+                  marginBottom: '10px',
+                  padding: '4px 12px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  backgroundColor: '#0668e120',
                   fontWeight: 500,
-                  color: "#0668e1",
-                  cursor: "pointer",
+                  color: '#0668e1',
+                  cursor: 'pointer',
                 }}
               >
                 Back
@@ -299,8 +297,8 @@ export default function Content() {
                     OAuthApps[appIndex].authorizedUsers.length
                   } ${
                     OAuthApps[appIndex].authorizedUsers.length == 1
-                      ? "User"
-                      : "Users"
+                      ? 'User'
+                      : 'Users'
                   }`}</div>
                 </div>
                 <hr />
@@ -319,7 +317,7 @@ export default function Content() {
                       ) : (
                         <>
                           {OAuthApps[appIndex].clientSecret.slice(0, -28) +
-                            "****************************"}
+                            '****************************'}
                         </>
                       )}
                     </div>
@@ -339,18 +337,18 @@ export default function Content() {
                 <div>
                   <div className={styles.credName}>Callback URL</div>
                   <Textfield
-                    id={"url"}
-                    type={"url"}
-                    placeholder={"Callback URL"}
+                    id={'url'}
+                    type={'url'}
+                    placeholder={'Callback URL'}
                     className={styles.content__container__input}
                     value={callbackUrl}
                     onChange={(e) => setCallbackUrl(e.target.value)}
                   ></Textfield>
                   <div className={styles.credName}>Description</div>
                   <Textfield
-                    id={"description"}
-                    type={"text"}
-                    placeholder={"Description"}
+                    id={'description'}
+                    type={'text'}
+                    placeholder={'Description'}
                     className={styles.content__container__input}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -358,18 +356,18 @@ export default function Content() {
                   <button
                     className={styles.oauth__save}
                     onClick={() => {
-                      console.log("clicked");
+                      console.log('clicked');
                       async function updateApp() {
                         const callbackUrl =
-                          document.getElementById("url").value;
+                          document.getElementById('url').value;
                         const description =
-                          document.getElementById("description").value;
+                          document.getElementById('description').value;
                         const data = await axios.put(
                           `/oAuthApps/${OAuthApps[appIndex]._id}`,
                           {
-                            name: "New App",
-                            callbackUrl: "http://localhost:3001",
-                            description: "This is a new app",
+                            name: 'New App',
+                            callbackUrl: 'http://localhost:3001',
+                            description: 'This is a new app',
                           }
                         );
                         console.log(data.data);
@@ -381,6 +379,82 @@ export default function Content() {
                     Save
                   </button>
                 </div>
+              </div>
+            </div>
+          ) : selected == 'oauth-create' ? (
+            <div className={styles.create}>
+              <div className={styles.oauth__heading}>
+                <h2>Create New OAuth App</h2>
+              </div>
+              <div className={styles.credName}>Name</div>
+              <Textfield
+                id={'createName'}
+                type={'text'}
+                placeholder={'Name'}
+                className={styles.content__container__input}
+                onChange={(e) =>
+                  setCreateData({
+                    ...createData,
+                    name: e.target.value,
+                  })
+                }
+              ></Textfield>
+              <div className={styles.credName}>Description</div>
+              <textarea
+                id={'createDescription'}
+                placeholder={'Description'}
+                className={styles.content__container__inputDesc}
+                onChange={(e) =>
+                  setCreateData({
+                    ...createData,
+                    description: e.target.value,
+                  })
+                }
+              ></textarea>
+              <div className={styles.credName}>Callback URL</div>
+              <Textfield
+                id={'createUrl'}
+                type={'url'}
+                placeholder={'Callback URL'}
+                onChange={(e) =>
+                  setCreateData({
+                    ...createData,
+                    callbackUrl: e.target.value,
+                  })
+                }
+                className={styles.content__container__input}
+              ></Textfield>
+              <div className={styles.createButtons}>
+                <button
+                  className={styles.appCreate}
+                  onClick={() => {
+                    async function createApp() {
+                      const data = await axios.post('/oAuthApps/', createData);
+                      console.log(data);
+
+                      if (data.data.success) {
+                        setSelected('oauth');
+                      }
+                      setLoading(true);
+                    }
+                    createApp();
+                    setCreateData({
+                      name: '',
+                      description: '',
+                      callbackUrl: '',
+                    });
+                  }}
+                >
+                  Create
+                </button>
+                <button
+                  className={styles.appCancel}
+                  onClick={() => {
+                    setSelected('oauth');
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           ) : null}
