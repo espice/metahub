@@ -16,6 +16,8 @@ export default function Content() {
   const [pageNum, setPageNum] = useState(1);
   const { updateUser } = useSession();
 
+  const [registering, setRegistering] = useState(false);
+
   const generateRandomNum = () => {
     let num1 = Math.floor(Math.random() * 10).toString();
     let num2 = Math.floor(Math.random() * 10).toString();
@@ -117,6 +119,7 @@ export default function Content() {
           <PrimaryButton
             className={styles.content__container__button}
             onClick={async () => {
+              setRegistering(true);
               const { data } = await axios.post('/auth/register', {
                 username: userNamee,
                 tag: num,
@@ -130,6 +133,7 @@ export default function Content() {
                 return (window.location.href = '/');
               }
             }}
+            loading={registering}
           >
             Let's Go! {'(for real this time)'}
           </PrimaryButton>
