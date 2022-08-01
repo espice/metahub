@@ -48,25 +48,19 @@ export default function Content() {
 
             <div className={PageStyles.content__section__body}>
               <div className={styles.verses__grid}>
-                {myVerses.length !== 0 && (
+                {myVerses.length !== 0 ? (
                   <>
                     {myVerses.map((verse, index) => {
                       return (
                         <div
                           className={styles.verses__grid__item}
                           style={{
-                            width: `${100 / myVerses.length}%`,
-                            maxWidth: `50%`,
+                            width: `${100 / myVerses.length - 1.9} %`,
                           }}
                           key={index}
                         >
                           <div className={styles.verses__grid__item__left}>
-                            <img
-                              src={
-                                'https://i.picsum.photos/id/18/536/354.jpg?hmac=FlV7gOOejOI5T5E4xPY1Orq37bUQ629f51vdh554n6g'
-                              }
-                              alt="verse"
-                            />
+                            <img src={verse.logo} alt="verse" />
                           </div>
                           <div className={styles.verses__grid__item__right}>
                             <div
@@ -110,7 +104,9 @@ export default function Content() {
                                 <div>
                                   {verse.onlineUsers
                                     ? verse.onlineUsers
-                                    : verse.authorizedUsers.length / 2}{' '}
+                                    : Math.ceil(
+                                        verse.authorizedUsers.length / 2
+                                      )}{' '}
                                   Online
                                 </div>
                               </div>
@@ -127,6 +123,10 @@ export default function Content() {
                       );
                     })}
                   </>
+                ) : (
+                  <div className={styles.noVerses}>
+                    You haven't joined any verses... yet.
+                  </div>
                 )}
               </div>
             </div>
@@ -152,12 +152,7 @@ export default function Content() {
                       key={index}
                     >
                       <div className={styles.explore__grid__item__left}>
-                        <img
-                          src={
-                            'https://i.picsum.photos/id/18/536/354.jpg?hmac=FlV7gOOejOI5T5E4xPY1Orq37bUQ629f51vdh554n6g'
-                          }
-                          alt="verse"
-                        />
+                        <img src={verse.logo} alt="verse" />
                       </div>
                       <div className={styles.explore__grid__item__right}>
                         <div

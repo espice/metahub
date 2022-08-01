@@ -310,6 +310,26 @@
       color: var(--grey-1000);
     }
   }
+
+  &__logout {
+    margin-top: auto;
+    margin-bottom: 30px;
+
+    &__button {
+      background-color: rgba(239, 59, 59, 0.2);
+      backdrop-filter: blur(2px);
+      color: rgb(239, 59, 59);
+
+      &:hover {
+        background-color: rgba(239, 59, 59, 0.3);
+      }
+
+      &:disabled {
+        cursor: default;
+        background-color: rgba(239, 59, 59, 0.2);
+      }
+    }
+  }
 }
 .appName {
   color: #212121;
