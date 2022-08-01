@@ -1,13 +1,13 @@
 .verses__grid {
   width: 100%;
   margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  grid-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 
   &__item {
     height: 130px;
-
+    min-width: 48.1%;
     border-radius: 8px;
     background-color: white;
     display: flex;
@@ -140,7 +140,7 @@
     }
 
     &__right {
-      margin: 2% auto auto -40px;
+      margin: 1.5% auto auto -40px;
       width: 80%;
       height: 90%;
       display: flex;
@@ -205,7 +205,7 @@
         font-size: 14px;
         background-color: rgba(#0668e1, 0.1);
         width: fit-content;
-        padding: 5px 10px;
+        padding: 6px 10px;
         border-radius: 5px;
         cursor: pointer;
         transition: all 0.2s;
@@ -226,5 +226,10 @@
 .shit {
   color: #707070;
   font-weight: 600;
-  margin-top: 30px;
+  margin-top: 20px;
+}
+
+.noVerses {
+  color: #707070;
+  font-weight: 600;
 }
