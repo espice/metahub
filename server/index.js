@@ -23,9 +23,9 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', config.allowedOrigins);
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
+  res.header("Access-Control-Allow-Origin", req.header("Origin"));
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE");
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, x-auth-token, Authorization'

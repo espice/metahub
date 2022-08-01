@@ -267,7 +267,7 @@ router.get("/apps/:clientId", auth, async (req, res) => {
   }
 });
 
-router.post("/access_token", async (req, res) => {
+router.get("/access_token", async (req, res) => {
   try {
     const clientId = req.query.clientId;
     const clientSecret = req.query.clientSecret;
@@ -290,7 +290,7 @@ router.post("/access_token", async (req, res) => {
       });
 
     const accessToken = jwt.sign(
-      { id: isCodeReal.user._id },
+      { id: isCodeReal.user._id, clientId },
       process.env.ACCESS_TOKEN_KEY
     );
 
@@ -301,6 +301,32 @@ router.post("/access_token", async (req, res) => {
       success: false,
       message: "Error occured in /auth/access_token",
     });
+  }
+});
+
+router.post("/revoke/:clientId", auth, async (req, res) => {
+  try {
+    if (req.user.isApp) {
+      return res.send({
+        success: false,
+        message: "You do not have permission to do this action",
+      });
+    }
+
+    await User.findOneAndUpdate(
+      { _id: req.user.id },
+      { $pull: { authorizedApps: req.params.clientId } }
+    );
+    await OAuthApp.findOneAndUpdate(
+      { _id: req.params.clientId },
+      { $pull: { authorizedUsers: req.user.id } }
+    );
+
+    console.log("should have worked");
+    res.send({ success: true, message: "done" });
+  } catch (e) {
+    console.log(e);
+    res.send({ success: false, message: "An error occured" });
   }
 });
 

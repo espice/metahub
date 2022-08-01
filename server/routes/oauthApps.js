@@ -19,7 +19,7 @@ router.get("/authorized", auth, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id }).populate({
       path: "authorizedApps",
-      select: "-clientId -clientSecret -_id",
+      select: " -clientSecret -_id",
     });
     console.log(user.authorizedApps);
     if (!user) return res.send({ success: false, message: "Invalid Token" });

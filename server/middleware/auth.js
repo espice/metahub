@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const OAuthApp = require("../models/OAuthApp");
 
-function auth(req, res, next) {
+async function auth(req, res, next) {
   const token = req.cookies.token;
 
   if (!token) {
@@ -14,6 +15,11 @@ function auth(req, res, next) {
       let decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY);
       req.user = decoded;
       req.user.isApp = true;
+      const app = await OAuthApp.findOne({ clientId: decoded.clientId });
+      const authorized = app.authorizedUsers.includes(decoded.id);
+      if (!authorized) {
+        return res.send({ success: false, message: "Invalid Access Token" });
+      }
       next();
     } catch (e) {
       console.log(process.env.ACCESS_TOKEN_KEY);
