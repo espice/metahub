@@ -13,13 +13,15 @@ export default function Content() {
   const [myData, setMyData] = useState({});
   const [reports, setReports] = useState([]);
   const [reportUsers, setReportUsers] = useState([]);
+  const [callbackUrl, setCallbackUrl] = useState("");
+  const [description, setDescription] = useState("");
 
   useEffect(() => {
     async function fetchApps() {
-      const data = await axios.get('/oAuthApps');
-      const authdata = await axios.get('/oAuthApps/authorized');
-      const mydata = await axios.get('/auth/me');
-      const reportsdata = await axios.get('/report');
+      const data = await axios.get("/oAuthApps");
+      const authdata = await axios.get("/oAuthApps/authorized");
+      const mydata = await axios.get("/auth/me");
+      const reportsdata = await axios.get("/report");
 
       setReports(reportsdata.data.reports);
       setOAuthApps(data.data.apps);
@@ -257,6 +259,8 @@ export default function Content() {
                         console.log(index);
                         setAppIndex(index);
                         setSelected("oauth-edit");
+                        setCallbackUrl(OAuthApps[index].callbackUrl);
+                        setDescription(OAuthApps[index].description);
                         setRevealed(false);
                       }}
                     >
@@ -268,6 +272,23 @@ export default function Content() {
             </div>
           ) : selected == "oauth-edit" ? (
             <div className={styles.edit}>
+              <button
+                onClick={() => {
+                  setSelected("oauth");
+                }}
+                style={{
+                  marginBottom: "10px",
+                  padding: "4px 12px",
+                  border: "none",
+                  borderRadius: "5px",
+                  backgroundColor: "#0668e120",
+                  fontWeight: 500,
+                  color: "#0668e1",
+                  cursor: "pointer",
+                }}
+              >
+                Back
+              </button>
               <div className={styles.edit__heading}>
                 <h2>{OAuthApps[appIndex].name}</h2>
                 <h3>Owned by You</h3>
@@ -322,6 +343,8 @@ export default function Content() {
                     type={"url"}
                     placeholder={"Callback URL"}
                     className={styles.content__container__input}
+                    value={callbackUrl}
+                    onChange={(e) => setCallbackUrl(e.target.value)}
                   ></Textfield>
                   <div className={styles.credName}>Description</div>
                   <Textfield
@@ -329,6 +352,8 @@ export default function Content() {
                     type={"text"}
                     placeholder={"Description"}
                     className={styles.content__container__input}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                   ></Textfield>
                   <button
                     className={styles.oauth__save}
@@ -350,7 +375,7 @@ export default function Content() {
                         console.log(data.data);
                         setLoading(true);
                       }
-                      updateApp();
+                      // updateApp();
                     }}
                   >
                     Save

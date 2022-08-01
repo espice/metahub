@@ -4,7 +4,7 @@ const config = {
   allowedOrigins:
     process.env.NODE_ENV == "production"
       ? ["https://minet-metaverse.vercel.app"]
-      : ["http://localhost:3000", "http://localhost:3001"],
+      : ["http://localhost:3001"],
   cookieConfig:
     process.env.NODE_ENV == "production"
       ? {

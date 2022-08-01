@@ -21,9 +21,9 @@ router.get("/authorized", auth, async (req, res) => {
       path: "authorizedApps",
       select: "-clientId -clientSecret -_id",
     });
-    console.log(user.authorizedApps)
+    console.log(user.authorizedApps);
     if (!user) return res.send({ success: false, message: "Invalid Token" });
-  
+
     res.send({ success: true, authorizedApps: user.authorizedApps });
   } catch (e) {
     res.send({ success: false, message: "Error in /oAuthApps/authorized" });
@@ -68,6 +68,16 @@ router.post("/", auth, async (req, res) => {
   } catch (e) {
     console.log(e);
     res.send({ success: false, message: "Error occured in POST /oAuthApps" });
+  }
+});
+
+router.put("/:clientId", auth, async (req, res) => {
+  try {
+  } catch (e) {
+    res.send({
+      success: false,
+      message: "Error occured in /oAuthApps/clientId",
+    });
   }
 });
 
