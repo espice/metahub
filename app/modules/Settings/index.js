@@ -15,14 +15,11 @@ export default function Content() {
   const [reportUsers, setReportUsers] = useState([]);
   const [callbackUrl, setCallbackUrl] = useState('');
   const [description, setDescription] = useState('');
-<<<<<<< HEAD
-=======
   const [createData, setCreateData] = useState({
     name: '',
     description: '',
     callbackUrl: '',
   });
->>>>>>> 8ccab7e4608084b68aa91a7c48dbf5f2aa29e57e
 
   useEffect(() => {
     async function fetchApps() {
@@ -110,13 +107,9 @@ export default function Content() {
           <div>
             <div
               className={
-<<<<<<< HEAD
-                selected == 'oauth' || selected == 'oauth-edit'
-=======
                 selected == 'oauth' ||
                 selected == 'oauth-edit' ||
                 selected == 'oauth-create'
->>>>>>> 8ccab7e4608084b68aa91a7c48dbf5f2aa29e57e
                   ? styles.somebutton
                   : styles.someotherbutton
               }
@@ -239,20 +232,7 @@ export default function Content() {
                   className={styles.oauth__create}
                   onClick={() => {
                     console.log('clicked');
-<<<<<<< HEAD
-                    async function createApp() {
-                      const data = await axios.post('/oAuthApps/', {
-                        name: 'New App',
-                        callbackUrl: 'http://localhost:3001',
-                        description: 'This is a new app',
-                      });
-                      console.log(data.data);
-                      setLoading(true);
-                    }
-                    createApp();
-=======
                     setSelected('oauth-create');
->>>>>>> 8ccab7e4608084b68aa91a7c48dbf5f2aa29e57e
                   }}
                 >
                   Create New
