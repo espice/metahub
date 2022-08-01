@@ -4,6 +4,7 @@ import styles from "../styles/home.module.scss";
 import { useState, useEffect } from "react";
 import Loader from "../components/Loader";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -16,6 +17,22 @@ export default function Home() {
       if (!accessToken) {
         setLoading(false);
         setUser(null);
+      } else {
+        axios
+          .get(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/me`, {
+            headers: {
+              Authorization: accessToken,
+            },
+          })
+          .then((res) => {
+            if (res.data.success) {
+              setLoading(false);
+              setUser(res.data.user);
+            } else {
+              setLoading(false);
+              setUser(null);
+            }
+          });
       }
     }
   }, []);
@@ -50,13 +67,22 @@ export default function Home() {
           }}
         >
           {user ? (
-            <div></div>
+            <div className={styles.user}>
+              <img src={user.avatar} />
+              <p>
+                {user.username}#{user.tag}
+              </p>
+              <span>DOB: {user.dob}</span>
+              <div>{user.reports.length} Reports</div>
+            </div>
           ) : (
             <button
               className={styles["login-button"]}
               onClick={() => {
                 console.log("hey");
-                router.push(`${process.env.NEXT_PUBLIC_OAUTH_URL}/oauth/authorize?clientId=${process.env.NEXT_PUBLIC_CLIENT_ID}`)
+                router.push(
+                  `${process.env.NEXT_PUBLIC_OAUTH_URL}/oauth/authorize?clientId=${process.env.NEXT_PUBLIC_CLIENT_ID}`
+                );
               }}
             >
               Login using MetaHub
