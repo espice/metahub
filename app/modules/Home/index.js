@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../utils/axios';
 import Loader from '../../components/Loader';
 import Image from 'next/image';
+
 import Clipboard from '../../public/icons/clipboard.svg';
 
 export default function Content() {
