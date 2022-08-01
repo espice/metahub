@@ -175,9 +175,19 @@ export default function Content() {
                         <button
                           className={styles.appRevoke}
                           onClick={() => {
-                            console.log(index);
-                            setAppIndex(index);
-                            setSelected("oauth-edit");
+                            // console.log(index);
+                            // setAppIndex(index);
+                            // setSelected("oauth-edit");
+                            console.log(authorizedApps[index]);
+                            axios.post(
+                              `/auth/revoke/${authorizedApps[index].clientId}`
+                            );
+                            const newAuthApps = authorizedApps.filter(
+                              (a) =>
+                                a.clientId != authorizedApps[index].clientId
+                            );
+                            setAuthorizedApps(newAuthApps);
+                            setSelected("profile");
                           }}
                         >
                           Revoke Access
