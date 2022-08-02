@@ -128,14 +128,14 @@ export default function Content() {
                 <div className={styles.profile__field}>
                   <div className={styles.profile__field__label}>USERNAME</div>
                   <div className={styles.profile__field__value}>
-                    {myData.username}#{myData.tag}
+                    {user.username}#{user.tag}
                   </div>
                 </div>
 
                 <div className={styles.profile__field}>
                   <div className={styles.profile__field__label}>EMAIL</div>
                   <div className={styles.profile__field__value}>
-                    {myData.email}
+                    {user.email}
                   </div>
                 </div>
 
