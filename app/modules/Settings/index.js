@@ -14,7 +14,6 @@ export default function Content() {
   const [OAuthApps, setOAuthApps] = useState([]);
   const [authorizedApps, setAuthorizedApps] = useState([]);
   const [revealed, setRevealed] = useState(false);
-  const [myData, setMyData] = useState({});
   const [reports, setReports] = useState([]);
   const [reportUsers, setReportUsers] = useState([]);
   const [callbackUrl, setCallbackUrl] = useState("");
@@ -24,20 +23,18 @@ export default function Content() {
     description: "",
     callbackUrl: "",
   });
-  const { logout } = useSession();
+  const { user, logout } = useSession();
   const [loggingOut, setLoggingOut] = useState(false);
 
   useEffect(() => {
     async function fetchApps() {
       const data = await axios.get("/oAuthApps");
       const authdata = await axios.get("/oAuthApps/authorized");
-      const mydata = await axios.get("/auth/me");
       const reportsdata = await axios.get("/report");
 
       setReports(reportsdata.data.reports);
       setOAuthApps(data.data.apps);
       setAuthorizedApps(authdata.data.authorizedApps);
-      setMyData(mydata.data.user);
 
       reports.forEach(async (report) => {
         const user = await axios.get(`/auth/me`);
@@ -45,7 +42,6 @@ export default function Content() {
         report.user = userdata;
         setReportUsers([...reportUsers, report.user]);
       });
-      console.log(reportUsers);
       setLoading(false);
     }
 
@@ -182,41 +178,49 @@ export default function Content() {
               </div>
               <div className={styles.oauth__apps}>
                 {console.log(authorizedApps)}
-                {authorizedApps
-                  ? authorizedApps.map((app, index) => (
-                      <div className={styles.appCard} key={index}>
-                        {console.log(app)}
-                        <img src={app.logo} className={styles.appimg}></img>
-                        <div className={styles.appshit}>
-                          <div className={styles.appName}>{app.name}</div>
-                          <div className={styles.something}>
-                            <div className={styles.dot}></div>
-                            <div>{`${app.authorizedUsers.length} ${
-                              app.authorizedUsers.length == 1
-                                ? "Member"
-                                : "Members"
-                            }`}</div>
-                          </div>
+                {authorizedApps.length !== 0 ? (
+                  authorizedApps.map((app, index) => (
+                    <div className={styles.appCard} key={index}>
+                      {console.log(app)}
+                      <img src={app.logo} className={styles.appimg}></img>
+                      <div className={styles.appshit}>
+                        <div className={styles.appName}>{app.name}</div>
+                        <div className={styles.something}>
+                          <div className={styles.dot}></div>
+                          <div>{`${app.authorizedUsers.length} ${
+                            app.authorizedUsers.length == 1
+                              ? "Member"
+                              : "Members"
+                          }`}</div>
                         </div>
-                        <button
-                          className={styles.appRevoke}
-                          onClick={() => {
-                            axios.post(
-                              `/auth/revoke/${authorizedApps[index].clientId}`
-                            );
-                            const newAuthApps = authorizedApps.filter(
-                              (a) =>
-                                a.clientId != authorizedApps[index].clientId
-                            );
-                            setAuthorizedApps(newAuthApps);
-                            setSelected("profile");
-                          }}
-                        >
-                          Revoke Access
-                        </button>
                       </div>
-                    ))
-                  : null}
+                      <button
+                        className={styles.appRevoke}
+                        onClick={() => {
+                          axios.post(
+                            `/auth/revoke/${authorizedApps[index].clientId}`
+                          );
+                          const newAuthApps = authorizedApps.filter(
+                            (a) => a.clientId != authorizedApps[index].clientId
+                          );
+                          setAuthorizedApps(newAuthApps);
+                          setSelected("profile");
+                        }}
+                      >
+                        Revoke Access
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <div
+                    style={{
+                      color: "#707070",
+                      fontWeight: 600,
+                    }}
+                  >
+                    You haven't authorized any verses yet.
+                  </div>
+                )}
               </div>
             </div>
           ) : selected == "reports" ? (
