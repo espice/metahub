@@ -1,14 +1,14 @@
-import PrimaryButton from '../Button/Primary';
-import TextButton from '../Button/Text';
-import styles from './shared/index.module.scss';
-import { useState } from 'react';
-import Image from 'next/image';
+import PrimaryButton from "../Button/Primary";
+import TextButton from "../Button/Text";
+import styles from "./shared/index.module.scss";
+import { useState } from "react";
+import Image from "next/image";
 
-import Logo from '../../public/logo.svg';
-import Router, { useRouter } from 'next/router';
-import Link from 'next/link';
-import settingsIcon from '../../public/icons/settings.svg';
-import useSession from '../../utils/hooks/useSession';
+import Logo from "../../public/logo.png";
+import Router, { useRouter } from "next/router";
+import Link from "next/link";
+import settingsIcon from "../../public/icons/settings.svg";
+import useSession from "../../utils/hooks/useSession";
 
 export default function Header() {
   const { user, error, loading } = useSession();
@@ -19,11 +19,11 @@ export default function Header() {
       <div className={styles.header__logo}>
         <Image
           src={Logo}
-          width={64}
+          width={110}
           height={64}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: "pointer" }}
           onClick={() => {
-            router.push('/');
+            router.push("/");
           }}
         />
       </div>
@@ -44,11 +44,11 @@ const AccountOptions = () => {
         <TextButton
           click={() => {
             setLoginLoading(true);
-            if (router.pathname === '/login') {
+            if (router.pathname === "/login") {
               return setLoginLoading(false);
             }
 
-            router.push('/login');
+            router.push("/login");
           }}
           loading={registerLoading ? false : loginLoading}
         >
@@ -59,11 +59,11 @@ const AccountOptions = () => {
         <PrimaryButton
           click={() => {
             setRegisterLoading(true);
-            if (router.pathname === '/register') {
+            if (router.pathname === "/register") {
               return setRegisterLoading(false);
             }
 
-            router.push('/register');
+            router.push("/register");
           }}
           loading={loginLoading ? false : registerLoading}
         >
@@ -79,14 +79,14 @@ const AuthLinks = () => {
 
   const links = [
     {
-      label: 'Home',
-      href: '/home',
-      active: router.pathname === '/home',
+      label: "Home",
+      href: "/home",
+      active: router.pathname === "/home",
     },
     {
-      label: 'Friends',
-      href: '/friends',
-      active: router.pathname === '/friends',
+      label: "Friends",
+      href: "/friends",
+      active: router.pathname === "/friends",
     },
   ];
 
@@ -97,7 +97,7 @@ const AuthLinks = () => {
           <Link href={link.href} key={index}>
             <div
               className={`${styles.header__nav__link} ${
-                link.active ? styles.header__nav__link__active : ''
+                link.active ? styles.header__nav__link__active : ""
               }`}
             >
               {link.label}
@@ -107,13 +107,13 @@ const AuthLinks = () => {
       })}
       <Image
         onClick={() => {
-          router.push('/settings');
+          router.push("/settings");
         }}
         src={settingsIcon}
         width={32}
         height={32}
         style={{
-          cursor: 'pointer',
+          cursor: "pointer",
         }}
       />
     </div>

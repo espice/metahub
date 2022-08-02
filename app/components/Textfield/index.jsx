@@ -1,5 +1,5 @@
-import styles from "./index.module.scss"
-import { useState } from "react"
+import styles from "./index.module.scss";
+import { useState } from "react";
 
 import classnames from "classnames/bind";
 
@@ -11,22 +11,16 @@ export default function TextField({
   value,
   onChange,
   type,
-
 }) {
-  console.log(className)
   const [passOpen, setPassOpen] = useState(false);
-    return (
-     
-        <input
-        className={cx("input", className)}
-        placeholder={placeholder}
-        disabled={disabled}
-        value={value}
-        onChange={onChange}
-        type={type}
-      /> 
-      
-    );
-  
-  
+  return (
+    <input
+      className={cx("input", className)}
+      placeholder={placeholder}
+      disabled={disabled}
+      value={value}
+      onChange={onChange}
+      type={type}
+    />
+  );
 }

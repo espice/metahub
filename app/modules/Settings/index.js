@@ -156,7 +156,7 @@ export default function Content() {
               <div className={styles.avatar}>
                 <div className={styles.profile__field__label}>AVATAR</div>
                 <img
-                  src={myData.avatar}
+                  src={user.avatar}
                   style={{
                     height: "60vh",
                     marginLeft: "40px",
