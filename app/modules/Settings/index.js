@@ -216,6 +216,7 @@ export default function Content() {
                     style={{
                       color: "#707070",
                       fontWeight: 600,
+                      marginTop: "10px",
                     }}
                   >
                     You haven't authorized any verses yet.
@@ -229,28 +230,42 @@ export default function Content() {
                 <h2>Reports</h2>
               </div>
               <div className={styles.reportsList}>
-                {reports.map((report, index) => (
-                  <div className={styles.appCard} key={index}>
-                    <div className={styles.somerow}>
-                      <img
-                        src={report.verse.logo}
-                        className={styles.appimg}
-                      ></img>
-                      <div className={styles.appshit}>
-                        <div className={styles.appName}>
-                          {report.verse.name}
+                {reports.length !== 0 ? (
+                  <>
+                    {reports.map((report, index) => (
+                      <div className={styles.appCard} key={index}>
+                        <div className={styles.somerow}>
+                          <img
+                            src={report.verse.logo}
+                            className={styles.appimg}
+                          ></img>
+                          <div className={styles.appshit}>
+                            <div className={styles.appName}>
+                              {report.verse.name}
+                            </div>
+                            <div className={styles.someotherthing}>
+                              <div>Reason -</div>
+                              <div>{report.reason}</div>
+                            </div>
+                          </div>
                         </div>
-                        <div className={styles.someotherthing}>
-                          <div>Reason -</div>
-                          <div>{report.reason}</div>
+                        <div>
+                          <button className={styles.appEdit}>Appeal</button>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <button className={styles.appEdit}>Appeal</button>
-                    </div>
+                    ))}
+                  </>
+                ) : (
+                  <div
+                    style={{
+                      color: "#707070",
+                      fontWeight: 600,
+                      marginTop: "10px",
+                    }}
+                  >
+                    You haven't been reported yet.
                   </div>
-                ))}
+                )}
               </div>
             </div>
           ) : selected == "oauth" ? (
