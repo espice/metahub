@@ -81,7 +81,7 @@ export default function Content() {
             </div>
           </div>
           <hr />
-          <div className={styles.settingType}>VERSES</div>
+          <div className={styles.settingType}>FLIGHTS</div>
           <div>
             <div
               className={
@@ -91,7 +91,7 @@ export default function Content() {
               }
               onClick={() => setSelected("verses")}
             >
-              Authorized Verses
+              Past Flights
             </div>
             <div
               className={
@@ -101,23 +101,7 @@ export default function Content() {
               }
               onClick={() => setSelected("reports")}
             >
-              Reports
-            </div>
-          </div>
-          <hr />
-          <div className={styles.settingType}>DEVELOPERS</div>
-          <div>
-            <div
-              className={
-                selected == "oauth" ||
-                selected == "oauth-edit" ||
-                selected == "oauth-create"
-                  ? styles.somebutton
-                  : styles.someotherbutton
-              }
-              onClick={() => setSelected("oauth")}
-            >
-              OAuth Applications
+              Orders
             </div>
           </div>
         </div>
@@ -126,9 +110,9 @@ export default function Content() {
             <div className={styles.main}>
               <div className={styles.profile}>
                 <div className={styles.profile__field}>
-                  <div className={styles.profile__field__label}>USERNAME</div>
+                  <div className={styles.profile__field__label}>NAME</div>
                   <div className={styles.profile__field__value}>
-                    {user.username}#{user.tag}
+                    {user.username}
                   </div>
                 </div>
 
@@ -137,6 +121,11 @@ export default function Content() {
                   <div className={styles.profile__field__value}>
                     {user.email}
                   </div>
+                </div>
+
+                <div className={styles.profile__field}>
+                  <div className={styles.profile__field__label}>DOB</div>
+                  <div className={styles.profile__field__value}>{user.dob}</div>
                 </div>
 
                 <div className={styles.profile__logout}>
@@ -152,18 +141,6 @@ export default function Content() {
                   </PrimaryButton>
                 </div>
               </div>
-
-              <div className={styles.avatar}>
-                <div className={styles.profile__field__label}>AVATAR</div>
-                <img
-                  src={user.avatar}
-                  style={{
-                    height: "60vh",
-                    marginLeft: "40px",
-                    marginTop: "80px",
-                  }}
-                />
-              </div>
             </div>
           ) : selected == "settings" ? (
             <div className={styles.settings}>
@@ -174,7 +151,7 @@ export default function Content() {
           ) : selected == "verses" ? (
             <div className={styles.verses}>
               <div className={styles.oauth__heading}>
-                <h2>Your Verses</h2>
+                <h2>Your Flights</h2>
               </div>
               <div className={styles.oauth__apps}>
                 {console.log(authorizedApps)}
@@ -219,7 +196,7 @@ export default function Content() {
                       marginTop: "10px",
                     }}
                   >
-                    You haven't authorized any verses yet.
+                    You haven't booked any flights yet.
                   </div>
                 )}
               </div>
@@ -227,7 +204,7 @@ export default function Content() {
           ) : selected == "reports" ? (
             <div className={styles.reports}>
               <div className={styles.oauth__heading}>
-                <h2>Reports</h2>
+                <h2>Orders</h2>
               </div>
               <div className={styles.reportsList}>
                 {reports.length !== 0 ? (
@@ -263,7 +240,7 @@ export default function Content() {
                       marginTop: "10px",
                     }}
                   >
-                    You haven't been reported yet.
+                    You haven't ordered anything in a flight yet.
                   </div>
                 )}
               </div>

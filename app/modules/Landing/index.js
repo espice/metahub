@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import PrimaryButton from '../../components/Button/Primary';
-import TextButton from '../../components/Button/Text';
-import styles from './index.module.scss';
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import PrimaryButton from "../../components/Button/Primary";
+import TextButton from "../../components/Button/Text";
+import styles from "./index.module.scss";
 
 export default function Content() {
   const router = useRouter();
@@ -15,10 +15,10 @@ export default function Content() {
       <div className={styles.left}>
         <div>
           <h1>
-            Welcome to <span className={styles.blue}>Metahub</span>.
+            Welcome to <span className={styles.blue}>Tony Airways</span>.
           </h1>
           <h1>
-            Your gateway to the <span className={styles.blue}>Metaverse.</span>
+            Rule the <span className={styles.blue}>sky</span>.
           </h1>
         </div>
         <div className={styles.buttons}>
@@ -26,11 +26,11 @@ export default function Content() {
             className={styles.primary}
             click={() => {
               setRegisterLoading(true);
-              if (router.pathname === '/register') {
+              if (router.pathname === "/register") {
                 return setRegisterLoading(false);
               }
 
-              router.push('/register');
+              router.push("/register");
             }}
             loading={loginLoading ? false : registerLoading}
           >
@@ -45,7 +45,6 @@ export default function Content() {
           </TextButton>
         </div>
       </div>
-      <img src="https://cdn.discordapp.com/attachments/778128218128515074/1002715143379095763/unknown.png" />
     </div>
   );
 }

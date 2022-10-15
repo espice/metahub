@@ -16,7 +16,7 @@ export default function Content() {
     <div className={styles.content}>
       <div className={styles.content__container}>
         <h1 className={styles.content__container__heading}>
-          Login to your Metahub account...
+          Login to your Tony Airways account...
         </h1>
         <h2 className={styles.content__container__placeholder2}>
           Your{" "}

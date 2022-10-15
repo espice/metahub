@@ -19,7 +19,7 @@ export default function Header() {
       <div className={styles.header__logo}>
         <Image
           src={Logo}
-          width={110}
+          width={64}
           height={64}
           style={{ cursor: "pointer" }}
           onClick={() => {
@@ -84,9 +84,9 @@ const AuthLinks = () => {
       active: router.pathname === "/home",
     },
     {
-      label: "Friends",
-      href: "/friends",
-      active: router.pathname === "/friends",
+      label: "Inflight Services",
+      href: "/services",
+      active: router.pathname === "/services",
     },
   ];
 

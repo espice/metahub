@@ -15,7 +15,7 @@ export default function Layout({ children, page }) {
   return (
     <>
       <Head>
-        <title>{page.title + ` • MetaHub`}</title>
+        <title>{page.title + ` • Tony Airways`}</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
@@ -25,7 +25,6 @@ export default function Layout({ children, page }) {
         />
       </Head>
       <>
-        <img src="background.svg" className={styles.bg} />
         <div className={styles.main}>
           {router.pathname === "/" ||
           router.pathname === "/login" ||

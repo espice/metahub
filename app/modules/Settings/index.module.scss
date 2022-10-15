@@ -15,7 +15,7 @@
 }
 
 .content span {
-  color: #0668e1;
+  color: #c6a251;
 }
 
 .content h1 {
@@ -35,8 +35,8 @@
 }
 
 .somebutton {
-  background: rgba(6, 104, 225, 0.1);
-  color: #0668e1;
+  background: rgba(#c6a251, 0.1);
+  color: #c6a251;
   // filter: blur(8px);
   backdrop-filter: blur(2px);
   border: none;
@@ -54,7 +54,7 @@
 }
 
 .someotherbutton {
-  background: rgba(6, 104, 225, 0.02);
+  background: rgba(#c6a251, 0.02);
   color: #6a6a6a;
   font-size: 16px;
   padding: 12px 24px;
@@ -128,7 +128,7 @@
   margin-bottom: 20px;
 }
 
-.MetaHub {
+.tonyairways {
   color: #212121;
   font-weight: 700;
   font-size: 24px;
@@ -169,7 +169,7 @@
   font-weight: 700;
   padding: 16px 32px;
   border-radius: 5px;
-  background: rgba(6, 104, 225, 0.1);
+  background: rgba(#c6a251, 0.1);
   cursor: pointer;
   border: none;
 }
@@ -249,7 +249,7 @@
   margin-top: 16px;
   padding: 16px 32px;
   border-radius: 5px;
-  background: rgba(6, 104, 225, 0.1);
+  background: rgba(#c6a251, 0.1);
   cursor: pointer;
   border: none;
 }
@@ -274,7 +274,7 @@
   margin-top: 16px;
   padding: 16px 32px;
   border-radius: 5px;
-  background: rgba(6, 104, 225, 0.1);
+  background: rgba(#c6a251, 0.1);
   cursor: pointer;
   border: none;
 }
@@ -312,7 +312,7 @@
   }
 
   &__logout {
-    margin-top: auto;
+    margin-top: 30px;
     margin-bottom: 30px;
 
     &__button {
@@ -403,7 +403,7 @@
   font-weight: 700;
   padding: 16px 32px;
   border-radius: 5px;
-  background: rgba(6, 104, 225, 0.1);
+  background: rgba(#c6a251, 0.1);
   cursor: pointer;
   border: none;
 }

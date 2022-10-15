@@ -1,18 +1,18 @@
-import Image from 'next/image';
-import PrimaryButton from '../../components/Button/Primary';
-import TextButton from '../../components/Button/Text';
-import styles from './index.module.scss';
-import Textfield from '../../components/Textfield';
-import { useState } from 'react';
-import TagTextField from './TagTextFIeld';
-import axios from '../../utils/axios';
-import useSession from '../../utils/hooks/useSession';
+import Image from "next/image";
+import PrimaryButton from "../../components/Button/Primary";
+import TextButton from "../../components/Button/Text";
+import styles from "./index.module.scss";
+import Textfield from "../../components/Textfield";
+import { useState } from "react";
+import TagTextField from "./TagTextFIeld";
+import axios from "../../utils/axios";
+import useSession from "../../utils/hooks/useSession";
 
 export default function Content() {
-  const [userName, setUserName] = useState('');
-  const [userPass, setUserPass] = useState('');
-  const [userNamee, setUserNamee] = useState('');
-  const [userBday, setUserBday] = useState('');
+  const [userName, setUserName] = useState("");
+  const [userPass, setUserPass] = useState("");
+  const [userNamee, setUserNamee] = useState("");
+  const [userBday, setUserBday] = useState("");
   const [pageNum, setPageNum] = useState(1);
   const { updateUser } = useSession();
 
@@ -33,38 +33,36 @@ export default function Content() {
       <div className={styles.content}>
         <div className={styles.content__container}>
           <h1 className={styles.content__container__heading}>
-            Starting your{' '}
-            <span className={styles.content__container__blue}>Journey</span>{' '}
-            into the unknown...
+            Get started with Tony Airways...
           </h1>
           <h2 className={styles.content__container__placeholder2}>
-            Your{' '}
+            Your{" "}
             <span className={styles.content__container__placeholder__blue}>
               Email
-            </span>{' '}
+            </span>{" "}
           </h2>
           <Textfield
             value={userName}
             onChange={(e) => {
               setUserName(e.target.value);
             }}
-            type={'email'}
-            placeholder={'Your Email'}
+            type={"email"}
+            placeholder={"Your Email"}
             className={styles.content__container__input}
           ></Textfield>
           <h2 className={styles.content__container__placeholder}>
-            Create a{' '}
+            Create a{" "}
             <span className={styles.content__container__placeholder__blue}>
               Password
-            </span>{' '}
+            </span>{" "}
           </h2>
           <Textfield
             value={userPass}
             onChange={(e) => {
               setUserPass(e.target.value);
             }}
-            type={'password'}
-            placeholder={'Your Password'}
+            type={"password"}
+            placeholder={"Your Password"}
             className={styles.content__container__input}
           ></Textfield>
           <PrimaryButton
@@ -83,13 +81,13 @@ export default function Content() {
       <div className={styles.content}>
         <div className={styles.content__container}>
           <h1 className={styles.content__container__heading}>
-            Just a few more steps required...{' '}
+            Just a few more steps required...{" "}
           </h1>
           <h2 className={styles.content__container__placeholder2}>
-            Your{' '}
+            Your{" "}
             <span className={styles.content__container__placeholder__blue}>
               Username
-            </span>{' '}
+            </span>{" "}
           </h2>
           <TagTextField
             num={num}
@@ -97,30 +95,30 @@ export default function Content() {
             onChange={(e) => {
               setUserNamee(e.target.value);
             }}
-            type={'text'}
-            placeholder={'Your Username'}
+            type={"text"}
+            placeholder={"Your Username"}
             className={styles.content__container__input}
           ></TagTextField>
           <h2 className={styles.content__container__placeholder}>
-            Your{' '}
+            Your{" "}
             <span className={styles.content__container__placeholder__blue}>
               Birthday
-            </span>{' '}
+            </span>{" "}
           </h2>
           <Textfield
             value={userBday}
             onChange={(e) => {
               setUserBday(e.target.value);
             }}
-            type={'date'}
-            placeholder={'Your Password'}
+            type={"date"}
+            placeholder={"Your Password"}
             className={styles.content__container__input}
           ></Textfield>
           <PrimaryButton
             className={styles.content__container__button}
             onClick={async () => {
               setRegistering(true);
-              const { data } = await axios.post('/auth/register', {
+              const { data } = await axios.post("/auth/register", {
                 username: userNamee,
                 tag: num,
                 email: userName,
@@ -130,12 +128,12 @@ export default function Content() {
 
               if (data.success) {
                 updateUser(data.user);
-                return (window.location.href = '/');
+                return (window.location.href = "/");
               }
             }}
             loading={registering}
           >
-            Let's Go! {'(for real this time)'}
+            Let's Go! {"(for real this time)"}
           </PrimaryButton>
         </div>
       </div>

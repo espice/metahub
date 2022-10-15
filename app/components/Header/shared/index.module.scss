@@ -24,18 +24,18 @@
       backdrop-filter: blur(2px);
 
       &__active {
-        background: rgba(6, 104, 225, 0.07);
+        background: rgba(#c6a251, 0.07);
         color: #ffffff;
         color: var(--grey-1000);
 
         &:hover {
-          background: rgba(6, 104, 225, 0.07);
+          background: rgba(#c6a251, 0.07);
         }
       }
     }
 
     &__link:hover {
-      background: rgba(249, 249, 249, 0.8);
+      background: rgba(#c6a251, 0.06);
     }
   }
 }

@@ -1,11 +1,11 @@
-import styles from './index.module.scss';
-import PageStyles from '../../styles/pages/index.module.scss';
-import { useState, useEffect } from 'react';
-import axios from '../../utils/axios';
-import Loader from '../../components/Loader';
-import Image from 'next/image';
+import styles from "./index.module.scss";
+import PageStyles from "../../styles/pages/index.module.scss";
+import { useState, useEffect } from "react";
+import axios from "../../utils/axios";
+import Loader from "../../components/Loader";
+import Image from "next/image";
 
-import Clipboard from '../../public/icons/clipboard.svg';
+import Clipboard from "../../public/icons/clipboard.svg";
 
 export default function Content() {
   const [myVerses, setMyVerses] = useState([]);
@@ -14,12 +14,12 @@ export default function Content() {
 
   useEffect(() => {
     async function fetchVerses() {
-      const { data } = await axios.get('/verses');
+      const { data } = await axios.get("/verses");
       setVerses(data.verses);
       await fetchMyVerses();
     }
     async function fetchMyVerses() {
-      const { data } = await axios.get('/verses/my');
+      const { data } = await axios.get("/verses/my");
       if (data.success) {
         setMyVerses(data.myVerses);
         return setLoading(false);
@@ -34,8 +34,8 @@ export default function Content() {
       {loading ? (
         <div
           style={{
-            display: 'flex',
-            height: '80vh',
+            display: "flex",
+            height: "80vh",
           }}
         >
           <Loader center />
@@ -44,7 +44,7 @@ export default function Content() {
         <div className={PageStyles.content}>
           <div className={PageStyles.content__section}>
             <div className={PageStyles.content__section__title}>
-              <div>Your</div> <div>Verses</div>
+              <div>Your</div> <div>Flights</div>
             </div>
 
             <div className={PageStyles.content__section__body}>
@@ -107,7 +107,7 @@ export default function Content() {
                                     ? verse.onlineUsers
                                     : Math.ceil(
                                         verse.authorizedUsers.length / 2
-                                      )}{' '}
+                                      )}{" "}
                                   Online
                                 </div>
                               </div>
@@ -126,7 +126,7 @@ export default function Content() {
                   </>
                 ) : (
                   <div className={styles.noVerses}>
-                    You haven't joined any verses... yet.
+                    You haven't booked any flights... yet.
                   </div>
                 )}
               </div>
@@ -137,15 +137,15 @@ export default function Content() {
             <div
               className={PageStyles.content__section__title}
               style={{
-                marginTop: '40px',
+                marginTop: "40px",
               }}
             >
-              <div>Explore</div>
+              <div>Explore Places</div>
             </div>
 
             <div className={PageStyles.content__section__body}>
               <div className={styles.explore__grid}>
-                {verses.map((verse, index) => {
+                {[verses[0]].map((verse, index) => {
                   return (
                     <div
                       className={styles.explore__grid__item}
@@ -153,13 +153,18 @@ export default function Content() {
                       key={index}
                     >
                       <div className={styles.explore__grid__item__left}>
-                        <img src={verse.logo} alt="verse" />
+                        <img
+                          src={
+                            "https://cdn.britannica.com/26/84526-050-45452C37/Gateway-monument-India-entrance-Mumbai-Harbour-coast.jpg"
+                          }
+                          alt="verse"
+                        />
                       </div>
                       <div className={styles.explore__grid__item__right}>
                         <div
                           className={styles.explore__grid__item__right__title}
                         >
-                          {verse.name}
+                          {"Mumbai"}
                         </div>
 
                         <div
@@ -175,7 +180,7 @@ export default function Content() {
                                 styles.explore__grid__item__right__status__total__icon
                               }
                             ></div>
-                            <div>{verse.authorizedUsers.length} Members</div>
+                            <div>$200 Price </div>
                           </div>
 
                           <div
@@ -188,24 +193,20 @@ export default function Content() {
                                 styles.verses__grid__item__right__status__online__icon
                               }
                             ></div>
-                            <div>
-                              {verse.onlineUsers
-                                ? verse.onlineUsers
-                                : Math.ceil(
-                                    verse.authorizedUsers.length / 2
-                                  )}{' '}
-                              Online
-                            </div>
+                            <div>{"7"} Seats available</div>
                           </div>
                         </div>
                         <div className={styles.shit}>{verse.description}</div>
 
                         <div
                           className={styles.verses__grid__item__right__copy}
-                          style={{ marginTop: 'auto' }}
+                          style={{
+                            marginTop: "auto",
+                            background: "#c6a251",
+                            color: "white",
+                          }}
                         >
-                          <Image src={Clipboard} width={16} height={16} />
-                          <div>Copy URL</div>
+                          <div>Book the flight</div>
                         </div>
                       </div>
                     </div>
